@@ -20,7 +20,6 @@ auto-pairs https://github.com/jiangmiao/auto-pairs
 ale https://github.com/w0rp/ale
 vim-yankstack https://github.com/maxbrunsfeld/vim-yankstack
 ack.vim https://github.com/mileszs/ack.vim
-ctrlp.vim https://github.com/kien/ctrlp.vim
 nerdtree https://github.com/scrooloose/nerdtree
 vim-colors-solarized https://github.com/altercation/vim-colors-solarized
 vim-indent-object https://github.com/michaeljsmith/vim-indent-object
