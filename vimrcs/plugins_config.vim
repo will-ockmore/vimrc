@@ -73,7 +73,13 @@ let g:ale_linters = {
 \   'python': ['flake8'],
 \   'go': ['go', 'golint', 'errcheck']
 \}
+let g:ale_fix_on_save = 1
 
+let g:ale_fixers = {
+\   'javascript': ['prettier'],
+\   'python': ['black'],
+\   'go': ['gofmt']
+\}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Git gutter (Git diff)
