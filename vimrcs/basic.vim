@@ -51,8 +51,11 @@ nmap <leader>w :w!<cr>
 " (useful for handling the permission-denied error)
 command W w !sudo tee % > /dev/null
 
+" Map jk to ESC in insert mode
+ inorcmap jk <esc> 
+ inoremap <esc> <nop>
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set 7 lines to the cursor - when moving vertically using j/k
