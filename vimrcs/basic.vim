@@ -52,8 +52,7 @@ nmap <leader>w :w!<cr>
 command W w !sudo tee % > /dev/null
 
 " Map jk to ESC in insert mode
- inorcmap jk <esc> 
- inoremap <esc> <nop>
+ inoremap jk <esc> 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
