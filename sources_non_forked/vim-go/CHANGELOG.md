@@ -51,6 +51,9 @@ IMPROVEMENTS:
   [[GH-2394]](https://github.com/fatih/vim-go/pull/2394)
 * Calculate Vim position correctly from LSP text position.
   [[GH-2395]](https://github.com/fatih/vim-go/pull/2395)
+* Use the statusline to display gopls initialization status messages and only
+  echo the statuses when `g:go_echo_command_info` is set.
+  [[GH-2422]](https://github.com/fatih/vim-go/pull/2422)
 
 BUG FIXES:
 * display info about function and function types whose parameters are
@@ -102,6 +105,8 @@ BUG FIXES:
 * Do not open a new buffer in Neovim when there are compilation errors and
   terminal moded is enabled.
   [[GH-2401]](https://github.com/fatih/vim-go/pull/2401)
+* Fix error due to typo in implementation of `:GoAddWorkspace`.
+  [[GH-2415]](https://github.com/fatih/vim-go/pull/2401)
 
 
 ## 1.20 - (April 22, 2019)

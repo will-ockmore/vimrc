@@ -16,33 +16,33 @@ from os import path
 
 #--- Globals ----------------------------------------------
 PLUGINS = """
-auto-pairs https://github.com/jiangmiao/auto-pairs
-ale https://github.com/w0rp/ale
-vim-yankstack https://github.com/maxbrunsfeld/vim-yankstack
-ack.vim https://github.com/mileszs/ack.vim
-nerdtree https://github.com/scrooloose/nerdtree
-vim-colors-solarized https://github.com/altercation/vim-colors-solarized
-vim-indent-object https://github.com/michaeljsmith/vim-indent-object
-vim-surround https://github.com/tpope/vim-surround
-vim-expand-region https://github.com/terryma/vim-expand-region
-goyo.vim https://github.com/junegunn/goyo.vim
-vim-repeat https://github.com/tpope/vim-repeat
-vim-commentary https://github.com/tpope/vim-commentary
-vim-go https://github.com/fatih/vim-go
-vim-gitgutter https://github.com/airblade/vim-gitgutter
-gruvbox https://github.com/morhetz/gruvbox
-lightline.vim https://github.com/itchyny/lightline.vim
-lightline-ale https://github.com/maximbaz/lightline-ale
-vim-markdown https://github.com/plasticboy/vim-markdown
-comfortable-motion.vim https://github.com/yuttie/comfortable-motion.vim
+coc.nvim https://github.com/neoclide/coc.nvim release
+auto-pairs https://github.com/jiangmiao/auto-pairs master
+ale https://github.com/w0rp/ale master
+vim-yankstack https://github.com/maxbrunsfeld/vim-yankstack master
+ack.vim https://github.com/mileszs/ack.vim master
+nerdtree https://github.com/scrooloose/nerdtree master
+vim-colors-solarized https://github.com/altercation/vim-colors-solarized master
+vim-indent-object https://github.com/michaeljsmith/vim-indent-object master
+vim-surround https://github.com/tpope/vim-surround master
+vim-expand-region https://github.com/terryma/vim-expand-region master
+goyo.vim https://github.com/junegunn/goyo.vim master
+vim-repeat https://github.com/tpope/vim-repeat master
+vim-commentary https://github.com/tpope/vim-commentary master
+vim-go https://github.com/fatih/vim-go master
+vim-gitgutter https://github.com/airblade/vim-gitgutter master
+gruvbox https://github.com/morhetz/gruvbox master
+lightline.vim https://github.com/itchyny/lightline.vim master
+lightline-ale https://github.com/maximbaz/lightline-ale master
+vim-markdown https://github.com/plasticboy/vim-markdown master
+comfortable-motion.vim https://github.com/yuttie/comfortable-motion.vim master
 """.strip()
 
-GITHUB_ZIP = '%s/archive/master.zip'
 
 SOURCE_DIR = path.join(path.dirname(__file__), 'sources_non_forked')
 
 
-def download_extract_replace(plugin_name, zip_path, temp_dir, source_dir):
+def download_extract_replace(plugin_name, zip_path, branch, temp_dir, source_dir):
     temp_zip_path = path.join(temp_dir, plugin_name)
 
     # Download and extract file in temp dir
@@ -53,7 +53,7 @@ def download_extract_replace(plugin_name, zip_path, temp_dir, source_dir):
     zip_f.extractall(temp_dir)
 
     plugin_temp_path = path.join(temp_dir,
-                                 path.join(temp_dir, '%s-master' % plugin_name))
+                                 path.join(temp_dir, f'{plugin_name}-{branch}'))
 
     # Remove the current plugin and replace it with the extracted
     plugin_dest_path = path.join(source_dir, plugin_name)
@@ -68,9 +68,9 @@ def download_extract_replace(plugin_name, zip_path, temp_dir, source_dir):
 
 
 def update(plugin):
-    name, github_url = plugin.split(' ')
-    zip_path = GITHUB_ZIP % github_url
-    download_extract_replace(name, zip_path,
+    name, github_url, branch = plugin.split(' ')
+    zip_path = f'{github_url}/archive/{branch}.zip'
+    download_extract_replace(name, zip_path, branch,
                              temp_directory, SOURCE_DIR)
 
 
