@@ -98,4 +98,5 @@ let g:comfortable_motion_no_default_key_mappings = 1
 " => FZF
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 map <C-f> :FZF<CR>
+set rtp+=~/.fzf
 set rtp+=/usr/local/opt/fzf
