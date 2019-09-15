@@ -27,8 +27,13 @@ set guioptions-=R
 set guioptions-=l
 set guioptions-=L
 
-" Colorscheme
-set background=dark
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Colorscheme
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set termguicolors
+" Avoid the background bleed in tmux
+" See https://sunaku.github.io/vim-256color-bce.html
+set t_ut=
 colorscheme gruvbox
 
 
