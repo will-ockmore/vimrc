@@ -102,6 +102,14 @@ inoremap $e ""<esc>i
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Tmux
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Repeat last command in right pane of current window
+" Useful for running tests after changes without leaving vim
+nmap \r :!tmux send-keys -t right C-p C-j <CR><CR>
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General abbreviations
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
