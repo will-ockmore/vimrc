@@ -255,11 +255,11 @@ coc 不会向 vim 添加自己的快捷键，你需要手工配置来满足需�
 			修复当前行可修复的第一个错误修复操作。
 
 
-<Plug>(coc-float-hide) 				*n_coc-flost-hide*
+<Plug>(coc-float-hide) 				*n_coc-float-hide*
 
 			隐藏所有浮动窗口。
 
-<Plug>(coc-float-jump) 				*n_coc-flost-jump*
+<Plug>(coc-float-jump) 				*n_coc-float-jump*
 
 			跳转到第一个浮动窗口。
 
@@ -354,7 +354,7 @@ g:coc_start_at_startup 				*g:coc_start_at_startup*
 
 g:coc_user_config 				*g:coc_user_config*
 
-			配置 coc 的用户配置，推荐使用 coc-setting.json 文件
+			配置 coc 的用户配置，推荐使用 coc-settings.json 文件
 			进行配置，而不是该变量。
 
 			该设置仅在服务启动前有效。
@@ -912,6 +912,10 @@ CocActionAsync({action}, [...{args}, [{callback}]])
 
 	执行当前行第一个 quickfix action，用于快速修复。
 
+"addRanges" {ranges}					*coc-action-addRanges*
+
+	Ranges 必须为 LSP 定义的 Range 数组： https://git.io/fjiEG
+
 ==============================================================================
 
 命令 						*coc-commands*
@@ -936,7 +940,7 @@ CocActionAsync({action}, [...{args}, [{callback}]])
 
 :CocConfig 					*:CocConfig*
 
-		打开用户的 `coc-setting.json` 文件。
+		打开用户的 `coc-settings.json` 文件。
 
 :CocInstall [{option}] {name} ... 		*:CocInstall*
 
@@ -1186,6 +1190,12 @@ CocHintFloat 					*CocHintFloat*
 
   提醒浮窗符使用的高亮。
 
+CocCursorRange 					*CocCursorRange*
+
+  Default: `hi default link CocCursorRange Search`
+
+  鼠标选择区使用的高亮。
+
 ==============================================================================
 
 LIST SUPPORT 					*coc-list*
@@ -1350,6 +1360,7 @@ LIST MAPPINGS 					*coc-list-mappings*
 <C-n>       - 切换到下一个历史匹配输入。
 <C-p>       - 切换到上一个历史匹配输入。
 <C-s>       - 切换过滤匹配模式。
+<C-r>       - 从 vim 寄存器插入内容。
 <Tab>       - 选择操作项。
 
 正常模式下默认快捷键：
@@ -1418,6 +1429,7 @@ s           - 执行 'split' 操作.
 	'deletebackward' - 删除后一个字符
 	'removetail' - 删除后面全部字符
 	'removeahead' - 删除前面全部字符
+	'insertregister' - 从 vim 寄存器插入内容
 	'paste' - 插入系统粘贴板内容到当前位置
 'eval' - 执行 viml 表达式并将结果插入到当前位置
 'action' - 执行特定操作，使用 <tab> 查看当前列表支持操作
@@ -1475,6 +1487,8 @@ extensions 						 *coc-list-extensions*
 	- 'toggle' 激活/停用插件, 默认操作
 	- 'disable' 禁用插件
 	- 'enable' 启动插件
+	- 'lock' 锁定/解除插件在当前版本
+	- 'doc' 查看插件文档
 	- 'reload' 重载插件
 	- 'uninstall' 卸载插件
 

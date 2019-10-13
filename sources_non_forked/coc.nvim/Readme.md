@@ -25,7 +25,7 @@ It's a completion framework and language server client which supports [extension
 
 _True snippet and additional text editing support_
 
-Floating windows require nightly build of neovim or vim >= 8.1.1522, [follow steps in the faq](https://github.com/neoclide/coc.nvim/wiki/F.A.Q#how-to-make-preview-window-shown-aside-with-pum).
+Floating windows require the nightly build of vim >= 8.1.1522, [follow steps in the faq](https://github.com/neoclide/coc.nvim/wiki/F.A.Q#how-to-make-preview-window-shown-aside-with-pum). Floating windows are supported in neovim >= 0.4.0.
 
 Check out [doc/coc.txt](doc/coc.txt) for the vim interface.
 
@@ -34,7 +34,7 @@ Check out [doc/coc.txt](doc/coc.txt) for the vim interface.
 - 🚀 **Fast**: [instant increment completion](https://github.com/neoclide/coc.nvim/wiki/Completion-with-sources#highlights-of-coc-completion), increment buffer sync using buffer update events.
 - 💎 **Reliable**: typed language, tested with CI.
 - 🌟 **Featured**: [full LSP support](https://github.com/neoclide/coc.nvim/wiki/Language-servers#supported-features)
-- ❤️ **Flexible**: [configured like VSCode](https://github.com/neoclide/coc.nvim/wiki/Using-configuration-file), [extensions work like in VSCode](https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions)
+- ❤️ **Flexible**: [configured like VSCode](https://github.com/neoclide/coc.nvim/wiki/Using-the-configuration-file), [extensions work like in VSCode](https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions)
 
 <details><summary>Completion experience</summary>
 <p>
@@ -117,6 +117,8 @@ Below are the reasons that led coc.nvim to build its own engine:
 
 - [Using workspaceFolders](https://github.com/neoclide/coc.nvim/wiki/Using-workspaceFolders)
 
+- [Using multiple cursors](https://github.com/neoclide/coc.nvim/wiki/Multiple-cursors-support)
+
 - [Language servers](https://github.com/neoclide/coc.nvim/wiki/Language-servers)
 
   - [Supported features](https://github.com/neoclide/coc.nvim/wiki/Language-servers#supported-features)
@@ -144,6 +146,7 @@ Below are the reasons that led coc.nvim to build its own engine:
     - [Fortran](https://github.com/neoclide/coc.nvim/wiki/Language-servers#fortran)
     - [Clojure](https://github.com/neoclide/coc.nvim/wiki/Language-servers#clojure)
     - [Julia](https://github.com/neoclide/coc.nvim/wiki/Language-servers#julia)
+    - [Dhall](https://github.com/neoclide/coc.nvim/wiki/Language-servers#dhall)
 
 * [Statusline integration](https://github.com/neoclide/coc.nvim/wiki/Statusline-integration)
 
@@ -189,6 +192,7 @@ Extensions are more powerful than a configured language server. Check out
   use [solargraph](http://solargraph.org/).
 - **[coc-rls](https://github.com/neoclide/coc-rls)** for `rust`, use
   [Rust Language Server](https://github.com/rust-lang/rls)
+- **[coc-rust-analyzer](https://github.com/fannheyward/coc-rust-analyzer)** for `rust`, use [rust-analyzer](https://github.com/rust-analyzer/rust-analyzer)
 - **[coc-r-lsp](https://github.com/neoclide/coc-r-lsp)** for `r`, use [R languageserver](https://github.com/REditorSupport/languageserver).
 - **[coc-yaml](https://github.com/neoclide/coc-yaml)** for `yaml`
 - **[coc-python](https://github.com/neoclide/coc-python)** for `python`, extension forked from [vscode-python](https://github.com/Microsoft/vscode-python).
@@ -209,10 +213,13 @@ Extensions are more powerful than a configured language server. Check out
 - **[coc-vimlsp](https://github.com/iamcco/coc-vimlsp)** for `viml`.
 - **[coc-xml](https://github.com/fannheyward/coc-xml)** for `xml`, use [lsp4xml](https://github.com/angelozerr/lsp4xml).
 - **[coc-elixir](https://github.com/amiralies/coc-elixir)** for `elixir`, based on [elixir-ls](https://github.com/JakeBecker/elixir-ls/).
+- **[coc-erlang_ls](https://github.com/hyhugh/coc-erlang_ls)** for `erlang`, based on [erlang_ls](https://github.com/erlang-ls/erlang_ls)
 - **[coc-tabnine](https://github.com/neoclide/coc-tabnine)** for [tabnine](https://tabnine.com/).
 - **[coc-powershell](https://github.com/yatli/coc-powershell)** for PowerShellEditorService integration.
 - **[coc-omnisharp](https://github.com/yatli/coc-omnisharp)** for `csharp` and `visualbasic`.
 - **[coc-texlab](https://github.com/fannheyward/coc-texlab)** for `LaTex` using [TexLab](https://texlab.netlify.com/).
+- **[coc-lsp-wl](https://github.com/voldikss/coc-lsp-wl)** for `wolfram mathematica`, fork of [vscode-lsp-wl](https://github.com/kenkangxgwe/vscode-lsp-wl).
+- **[coc-flow](https://github.com/amiralies/coc-flow)** for [`flow`](https://flow.org)
 
 Plus more! To get a full list of coc extensions, [search coc.nvim on npm](https://www.npmjs.com/search?q=keywords%3Acoc.nvim),
 or use [coc-marketplace](https://github.com/fannheyward/coc-marketplace), which can search and install extensions in coc.nvim directly.
@@ -267,10 +274,12 @@ inoremap <silent><expr> <c-space> coc#refresh()
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Or use `complete_info` if your vim support it, like:
+" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 
-" Use `[c` and `]c` to navigate diagnostics
-nmap <silent> [c <Plug>(coc-diagnostic-prev)
-nmap <silent> ]c <Plug>(coc-diagnostic-next)
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
@@ -316,10 +325,15 @@ nmap <leader>ac  <Plug>(coc-codeaction)
 " Fix autofix problem of current line
 nmap <leader>qf  <Plug>(coc-fix-current)
 
-" Use <tab> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-nmap <silent> <TAB> <Plug>(coc-range-select)
-xmap <silent> <TAB> <Plug>(coc-range-select)
-xmap <silent> <S-TAB> <Plug>(coc-range-select-backword)
+" Create mappings for function text object, requires document symbols feature of languageserver.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+nmap <silent> <C-d> <Plug>(coc-range-select)
+xmap <silent> <C-d> <Plug>(coc-range-select)
 
 " Use `:Format` to format current buffer
 command! -nargs=0 Format :call CocAction('format')

@@ -132,7 +132,7 @@ Builtin configurations:~
 
 "suggest.enablePreview":~
 
-	Add preview option to `completeopt`, default: false,  default: `false`
+	Add preview option to `completeopt`, default: `false`
 
 "suggest.floatEnable"~
 
@@ -751,11 +751,11 @@ normal mode, `v_` works for visual mode.
 			Try to run quickfix action for diagnostics on the
 			current line.
 
-<Plug>(coc-float-hide) 				*n_coc-flost-hide*
+<Plug>(coc-float-hide) 				*n_coc-float-hide*
 
 			Hide all float windows.
 
-<Plug>(coc-float-jump) 				*n_coc-flost-jump*
+<Plug>(coc-float-jump) 				*n_coc-float-jump*
 
 			Jump to first float window.
 
@@ -868,6 +868,21 @@ g:coc_global_extensions 			*g:coc_global_extensions*
 			installed, define this variable to a list of extension 
 			names when you can't use |coc#add_extension()|
 
+g:coc_cygqwin_path_prefixes 			*g:coc_cygqwin_path_prefixes*
+
+			When running under cygwin, the node process will work
+			with win32 paths, while your vim process will work
+			with POSIX paths. You can use this map to map between
+			paths. For example, your root folder might be
+			`c:/Users/myUser/workspace` mapped in cygwin as
+			`/home/myUser/workspace`. In this situation, your node
+			process might send the `c:/Users/myUser/workspace`
+			path to your vim process. To solve this, you need to
+			define this map:
+
+				`let g:coc_cygqwin_path_prefixes = `
+				`	\{'c:/Users/myUser': '/home/myUser'}`
+
 g:coc_enable_locationlist 			*g:coc_enable_locationlist*
 
 			Open location list when location list changes.
@@ -927,6 +942,8 @@ g:coc_node_path 				*g:coc_node_path*
 			let g:coc_node_path = '/usr/local/opt/node@10/bin/node'
 <
 			Use this when coc has problems with your system node,
+
+			Note: you have to use `$HOME` as home directory.
 
 g:coc_force_debug  				*g:coc_force_debug*
 
@@ -998,6 +1015,16 @@ g:node_client_debug 				*g:node_client_debug*
 <
 			to open the log file.
 
+g:coc_cursors_activated				*g:coc_cursors_activated*
+
+			Use expression `get(g:, 'coc_cursors_activated',0)` to
+			check if cursors session is activated.
+
+g:coc_config_home				*g:coc_config_home*
+
+			Configure the directory which will be used to look
+			for coc-settings.json and install extensions.
+			
 ------------------------------------------------------------------------------
 
 Some variables are provided by coc.nvim so you can use them in your 
@@ -1254,6 +1281,17 @@ CocActionAsync({action}, [...{args}, [{callback}]])
 	Call CocAction without blocking vim UI, the callback is called with 
 	`error` as the first argument and `response` as the second argument.
 
+						*CocHasProvider()*
+CocHasProvider({feature})
+
+	Check if provider exists for specified feature. Supported features:
+
+	`rename` `onTypeEdit` `documentLink` `documentColor` `foldingRange`
+	`format` `codeAction` `workspaceSymbols` `formatRange` `hover`
+	`signature` `documentSymbol` `documentHighlight` `definition`
+	`declaration` `typeDefinition` `reference` `implementation` `codeLens`
+	`selectionRange`
+
 ------------------------------------------------------------------------------
 
 Available Actions ~
@@ -1502,6 +1540,15 @@ Available Actions ~
 	Do the first quickfix action for the current line.
 	Return `v:false` when no quickfix action found.
 
+"addRanges" {ranges}					*coc-action-addRanges*
+
+	Ranges must be provided as array of range type: https://git.io/fjiEG
+
+"getWordEdit" 						 *coc-action-getWordEdit*
+
+	Get workspaceEdit of current word, language server used when possible,
+	extract word from current buffer as fallback.
+
 ------------------------------------------------------------------------------
 COMMANDS 					*coc-commands*
 
@@ -1513,7 +1560,7 @@ COMMANDS 					*coc-commands*
 
 		Restart coc service.
 
-		Use this command when you want coc start all over again.
+		Use this command when you want coc to start all over again.
 
 :CocDisable 					*:CocDisable*
 
@@ -1525,7 +1572,12 @@ COMMANDS 					*coc-commands*
 
 :CocConfig 					*:CocConfig*
 
-		Edit the user config file `coc-setting.json`
+		Edit the user config file `coc-settings.json`
+
+:CocLocalConfig 				*:CocLocalConfig*
+
+		Edit or create `.vim/coc-settings.json` of the current working
+		directory.
 
 :CocInstall [{option}] {name} ... 		*:CocInstall*
 
@@ -1618,7 +1670,7 @@ AUTOCMD 					*coc-autocmds*
 						*CocNvimInit*
 :autocmd User CocNvimInit {command}
 
-		Triggered after the coc services has started.
+		Triggered after the coc services have started.
 
 		If you want to trigger an action of coc after vim has started, 
 		this autocmd should be used because coc is always started 
@@ -1644,7 +1696,7 @@ AUTOCMD 					*coc-autocmds*
 :autocmd User CocJumpPlaceholder {command}
 
 		Triggered after a jump to a placeholder. Can be used for 
-		showwing signature help like so: >
+		showing signature help like so: >
 
 	autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 <
@@ -1652,13 +1704,13 @@ AUTOCMD 					*coc-autocmds*
 
 :autocmd User CocOpenFloat {command}
 
-		Triggered when floating window opened.
+		Triggered when a floating window is opened.
 						*CocTerminalOpen*
 
 :autocmd User CocTerminalOpen {command}
 
-		Triggered when terminal shown, can be used for adjust window
-		height.
+		Triggered when the terminal is shown, can be used for adjusting the
+		window height.
 
 ------------------------------------------------------------------------------
 
@@ -1755,13 +1807,13 @@ CocHighlightText 				*CocHighlightText*
   The highlight used for document highlight feature. Normally used for
   highlighting same symbols in the buffer at the current cursor position.
 
-CocHighlightTextRead 				*CocHighlightTextRead*
+CocHighlightRead 				*CocHighlightRead*
 
   Default `hi default link CocHighlightRead  CocHighlightText`
 
   Highlight for `Read` kind of document symbol.
 
-CocHighlightTextWrite 				*CocHighlightTextWrite*
+CocHighlightWrite 				*CocHighlightWrite*
 
   Default `hi default link CocHighlightWrite  CocHighlightText`
 
@@ -1809,7 +1861,7 @@ CocErrorFloat 					*CocErrorFloat*
 
   The highlight used for a floating window with errors.
 
-CocWarningFloat 					*CocWarningFloat*
+CocWarningFloat 				*CocWarningFloat*
 
   Default: `hi default link CocWarningFloat CocWarningSign`
 
@@ -1826,6 +1878,18 @@ CocHintFloat 					*CocHintFloat*
   Default: `hi default link CocHintFloat CocHintSign`
 
   The highlight used for a floating window with hints.
+
+CocCursorRange 					*CocCursorRange*
+
+  Default: `hi default link CocCursorRange Search`
+
+  The highlight used for cursor ranges.
+
+CocHoverRange 					*CocHoverRange*
+
+  Default: `hi default link CocHoverRange Search`
+
+  The highlight used for current hover range.
 
 ==============================================================================
 LIST SUPPORT 					*coc-list*
@@ -1998,6 +2062,7 @@ Default mappings in insert mode:
 <C-n>       - navigate to next input in history.
 <C-p>       - navigate to previous input in history.
 <C-s>       - switch matcher for filter items.
+<C-r>       - insert content from vim register.
 <Tab>       - select action.
 
 Default mappings in normal mode:
@@ -2069,6 +2134,7 @@ The mapping expression should be `command:arguments`, available commands:
 	'deletebackward' - remove next character.
 	'removetail' - remove characters afterwards.
 	'removeahead' - remove character ahead.
+	'insertregister' - insert content from vim register.
 	'paste' - append text from system clipboard to prompt.
 'eval' - append text to prompt from result of viml expression.
 'action' - execute action of list, use <tab> to find available actions.
@@ -2129,6 +2195,8 @@ extensions 						 *coc-list-extensions*
 	- 'toggle' activate/deactivate extension, default action.
 	- 'disable' disable extension.
 	- 'enable' enable extension.
+	- 'lock' lock/unlock extension to current version.
+	- 'doc' view extension's README doc.
 	- 'reload' reload extension.
 	- 'uninstall' uninstall extension.
 
@@ -2331,7 +2399,7 @@ Q: 	I want codeLens feature of LSP.
 A: 	CodeLens support uses the virtual text feature of neovim, its's not 
 	enabled by default. To enable it, add: >
 
-	  "coc.preferences.codeLens.enable": true,
+	  "codeLens.enable": true,
 <
 	to your coc-settings.json
 

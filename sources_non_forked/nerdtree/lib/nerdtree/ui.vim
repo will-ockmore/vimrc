@@ -340,7 +340,7 @@ function! s:UI.restoreScreenState()
     if !has_key(self, '_screenState')
         return
     endif
-    exec("silent vertical resize " . self._screenState['oldWindowSize'])
+    call nerdtree#exec("silent vertical resize " . self._screenState['oldWindowSize'], 1)
 
     let old_scrolloff=&scrolloff
     let &scrolloff=0
@@ -355,12 +355,15 @@ endfunction
 " scroll position
 function! s:UI.saveScreenState()
     let win = winnr()
-    call g:NERDTree.CursorToTreeWin()
     let self._screenState = {}
-    let self._screenState['oldPos'] = getpos(".")
-    let self._screenState['oldTopLine'] = line("w0")
-    let self._screenState['oldWindowSize']= winwidth("")
-    call nerdtree#exec(win . "wincmd w")
+    try
+        call g:NERDTree.CursorToTreeWin()
+        let self._screenState['oldPos'] = getpos(".")
+        let self._screenState['oldTopLine'] = line("w0")
+        let self._screenState['oldWindowSize']= winwidth("")
+        call nerdtree#exec(win . "wincmd w", 1)
+    catch
+    endtry
 endfunction
 
 " FUNCTION: s:UI.setShowHidden(val) {{{1
@@ -506,10 +509,10 @@ endfunction
 function! s:UI.toggleZoom()
     if exists("b:NERDTreeZoomed") && b:NERDTreeZoomed
         let size = exists("b:NERDTreeOldWindowSize") ? b:NERDTreeOldWindowSize : g:NERDTreeWinSize
-        exec "silent vertical resize ". size
+        call nerdtree#exec("silent vertical resize ". size, 1)
         let b:NERDTreeZoomed = 0
     else
-        exec "vertical resize ". get(g:, 'NERDTreeWinSizeMax', '')
+        call nerdtree#exec("vertical resize ". get(g:, 'NERDTreeWinSizeMax', ''), 1)
         let b:NERDTreeZoomed = 1
     endif
 endfunction

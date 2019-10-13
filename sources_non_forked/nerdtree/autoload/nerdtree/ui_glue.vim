@@ -72,6 +72,7 @@ function! nerdtree#ui_glue#createDefaultBindings()
     call NERDTreeAddKeyMap({ 'key': g:NERDTreeMapOpenInTabSilent, 'scope': 'Bookmark', 'callback': s . 'openInNewTabSilent' })
 
     call NERDTreeAddKeyMap({ 'key': g:NERDTreeMapOpenExpl, 'scope': "DirNode", 'callback': s."openExplorer" })
+    call NERDTreeAddKeyMap({ 'key': g:NERDTreeMapOpenExpl, 'scope': "FileNode", 'callback': s."openExplorer" })
 
     call NERDTreeAddKeyMap({ 'key': g:NERDTreeMapDeleteBookmark, 'scope': "Bookmark", 'callback': s."deleteBookmark" })
 endfunction
@@ -283,6 +284,9 @@ endfunction
 " FUNCTION: s:findAndRevealPath(pathStr) {{{1
 function! s:findAndRevealPath(pathStr)
     let l:pathStr = !empty(a:pathStr) ? a:pathStr : expand('%:p')
+    if !filereadable(l:pathStr)
+        let l:pathStr = fnamemodify(l:pathStr, ':h')
+    endif
 
     if empty(l:pathStr)
         call nerdtree#echoWarning('no file for the current buffer')
@@ -574,11 +578,11 @@ function! s:refreshRoot()
     call nerdtree#echo("Refreshing the root node. This could take a while...")
 
     let l:curWin = winnr()
-    call nerdtree#exec(g:NERDTree.GetWinNum() . "wincmd w")
+    call nerdtree#exec(g:NERDTree.GetWinNum() . "wincmd w", 1)
     call b:NERDTree.root.refresh()
     call b:NERDTree.render()
     redraw
-    call nerdtree#exec(l:curWin . "wincmd w")
+    call nerdtree#exec(l:curWin . "wincmd w", 1)
     call nerdtree#echo("")
 endfunction
 

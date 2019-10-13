@@ -14,7 +14,7 @@ import requests
 from os import path
 
 
-#--- Globals ----------------------------------------------
+# --- Globals ----------------------------------------------
 PLUGINS = """
 coc.nvim https://github.com/neoclide/coc.nvim release
 auto-pairs https://github.com/jiangmiao/auto-pairs master
@@ -36,10 +36,11 @@ lightline.vim https://github.com/itchyny/lightline.vim master
 lightline-ale https://github.com/maximbaz/lightline-ale master
 vim-markdown https://github.com/plasticboy/vim-markdown master
 comfortable-motion.vim https://github.com/yuttie/comfortable-motion.vim master
+golden-ratio https://github.com/roman/golden-ratio master
 """.strip()
 
 
-SOURCE_DIR = path.join(path.dirname(__file__), 'sources_non_forked')
+SOURCE_DIR = path.join(path.dirname(__file__), "sources_non_forked")
 
 
 def download_extract_replace(plugin_name, zip_path, branch, temp_dir, source_dir):
@@ -47,13 +48,14 @@ def download_extract_replace(plugin_name, zip_path, branch, temp_dir, source_dir
 
     # Download and extract file in temp dir
     req = requests.get(zip_path)
-    open(temp_zip_path, 'wb').write(req.content)
+    open(temp_zip_path, "wb").write(req.content)
 
     zip_f = zipfile.ZipFile(temp_zip_path)
     zip_f.extractall(temp_dir)
 
-    plugin_temp_path = path.join(temp_dir,
-                                 path.join(temp_dir, f'{plugin_name}-{branch}'))
+    plugin_temp_path = path.join(
+        temp_dir, path.join(temp_dir, f"{plugin_name}-{branch}")
+    )
 
     # Remove the current plugin and replace it with the extracted
     plugin_dest_path = path.join(source_dir, plugin_name)
@@ -64,17 +66,16 @@ def download_extract_replace(plugin_name, zip_path, branch, temp_dir, source_dir
         pass
 
     shutil.move(plugin_temp_path, plugin_dest_path)
-    print('Updated {0}'.format(plugin_name))
+    print("Updated {0}".format(plugin_name))
 
 
 def update(plugin):
-    name, github_url, branch = plugin.split(' ')
-    zip_path = f'{github_url}/archive/{branch}.zip'
-    download_extract_replace(name, zip_path, branch,
-                             temp_directory, SOURCE_DIR)
+    name, github_url, branch = plugin.split(" ")
+    zip_path = f"{github_url}/archive/{branch}.zip"
+    download_extract_replace(name, zip_path, branch, temp_directory, SOURCE_DIR)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     temp_directory = tempfile.mkdtemp()
 
     try:

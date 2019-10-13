@@ -27,6 +27,11 @@ let s:default_registry = {
 \       'suggested_filetypes': ['python'],
 \       'description': 'Fix PEP8 issues with black.',
 \   },
+\   'dfmt': {
+\       'function': 'ale#fixers#dfmt#Fix',
+\       'suggested_filetypes': ['d'],
+\       'description': 'Fix D files with dfmt.',
+\   },
 \   'fecs': {
 \       'function': 'ale#fixers#fecs#Fix',
 \       'suggested_filetypes': ['javascript', 'css', 'html'],
@@ -215,6 +220,11 @@ let s:default_registry = {
 \       'suggested_filetypes': ['haskell'],
 \       'description': 'Fix Haskell files with brittany.',
 \   },
+\   'hindent': {
+\       'function': 'ale#fixers#hindent#Fix',
+\       'suggested_filetypes': ['haskell'],
+\       'description': 'Fix Haskell files with hindent.',
+\   },
 \   'hlint': {
 \       'function': 'ale#fixers#hlint#Fix',
 \       'suggested_filetypes': ['haskell'],
@@ -249,6 +259,11 @@ let s:default_registry = {
 \       'function': 'ale#fixers#sqlfmt#Fix',
 \       'suggested_filetypes': ['sql'],
 \       'description': 'Fix SQL files with sqlfmt.',
+\   },
+\   'sqlformat': {
+\       'function': 'ale#fixers#sqlformat#Fix',
+\       'suggested_filetypes': ['sql'],
+\       'description': 'Fix SQL files with sqlformat.',
 \   },
 \   'google_java_format': {
 \       'function': 'ale#fixers#google_java_format#Fix',
@@ -307,7 +322,7 @@ let s:default_registry = {
 \   },
 \   'styler': {
 \       'function': 'ale#fixers#styler#Fix',
-\       'suggested_filetypes': ['r', 'rmarkdown'],
+\       'suggested_filetypes': ['r', 'rmarkdown', 'rmd'],
 \       'description': 'Fix R files with styler.',
 \   },
 \   'latexindent': {
@@ -324,6 +339,16 @@ let s:default_registry = {
 \       'function': 'ale#fixers#reorder_python_imports#Fix',
 \       'suggested_filetypes': ['python'],
 \       'description': 'Sort Python imports with reorder-python-imports.',
+\   },
+\   'gnatpp': {
+\       'function': 'ale#fixers#gnatpp#Fix',
+\       'suggested_filetypes': ['ada'],
+\       'description': 'Format Ada files with gnatpp.',
+\   },
+\   'nixpkgs-fmt': {
+\       'function': 'ale#fixers#nixpkgsfmt#Fix',
+\       'suggested_filetypes': ['nix'],
+\       'description': 'A formatter for Nix code',
 \   },
 \}
 

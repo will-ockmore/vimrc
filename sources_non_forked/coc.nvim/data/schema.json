@@ -362,7 +362,7 @@
     },
     "suggest.timeout": {
       "type": "integer",
-      "default": 2000,
+      "default": 5000,
       "minimum": 500,
       "maximum": 5000,
       "description": "Timeout for completion, in miliseconds."
@@ -411,6 +411,11 @@
       "maximum": 100,
       "description": "Max items count for source priority bigger than or equal to 90."
     },
+    "suggest.removeDuplicateItems": {
+      "type": "boolean",
+      "description": "Remove completion items with duplicated word for all sources, snippet items are excluded.",
+      "default": false
+    },
     "suggest.completionItemKindLabels": {
       "type": "object",
       "default": {},
@@ -445,6 +450,14 @@
       },
       "additionalProperties": false
     },
+    "suggest.invalidInsertCharacters": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Invalid character for strip valid word when inserting text of complete item.",
+      "default": [" ", "(", "<", "{", "[", "\r", "\n"]
+    },
     "diagnostic.enable": {
       "type": "boolean",
       "description": "Set to false to disable diagnostic display",
@@ -466,6 +479,11 @@
       "description": "Diagnostic message target.",
       "default": "float",
       "enum": ["echo", "float"]
+    },
+    "diagnostic.messageDelay": {
+      "type": "number",
+      "description": "How long to wait (in milliseconds) before displaying the diagnostic message with echo or float",
+      "default": 250
     },
     "diagnostic.joinMessageLines": {
       "type": "boolean",
@@ -558,12 +576,15 @@
       "description": "Maximum height of diagnostics floating window.",
       "default": 8
     },
+    "diagnostic.maxWindowWidth": {
+      "type": "number",
+      "description": "Maximum width of diagnostics floating window.",
+      "default": 80
+    },
     "diagnostic.filetypeMap": {
       "type": "object",
       "description": "A map between buffer filetype and the filetype assigned to diagnostics. To syntax highlight diagnostics withs their parent buffer type use '\"default\": \"bufferType\"'",
-      "default": {
-        "default": ""
-      }
+      "default": {}
     },
     "signature.enable": {
       "type": "boolean",
@@ -640,6 +661,11 @@
       "default": ">",
       "description": "The characer used as first characer in prompt line"
     },
+    "list.interactiveDebounceTime": {
+      "type": "number",
+      "default": 100,
+      "description": "Debouce time for input change on interactive mode."
+    },
     "list.maxHeight": {
       "type": "number",
       "default": 10,
@@ -704,6 +730,29 @@
       "type": "object",
       "default": {},
       "description": "Custom keymappings on insert mode."
+    },
+    "list.source.outline.ctagsFilestypes": {
+      "type": "array",
+      "default": [],
+      "description": "Filetypes that should use ctags for outline instead of language server.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "cursors.cancelKey": {
+      "type": "string",
+      "default": "<esc>",
+      "description": "Key used for cancel cursors session."
+    },
+    "cursors.nextKey": {
+      "type": "string",
+      "default": "<C-n>",
+      "description": "Key used for jump to next cursors position. "
+    },
+    "cursors.previousKey": {
+      "type": "string",
+      "default": "<C-p>",
+      "description": "Key used for jump to previous cursors position."
     },
     "coc.preferences.useQuickfixForLocations": {
       "type": "boolean",
@@ -770,8 +819,7 @@
     "coc.preferences.jumpCommand": {
       "type": "string",
       "description": "Command used for location jump, like goto definition, goto references etc.",
-      "default": "edit",
-      "enum": ["edit", "split", "vsplit", "tabe", "drop", "tab drop"]
+      "default": "edit"
     },
     "coc.preferences.messageLevel": {
       "type": "string",
@@ -890,14 +938,6 @@
       "type": "array",
       "default": [],
       "description": "Ignore patterns of matcher",
-      "items": {
-        "type": "string"
-      }
-    },
-    "list.source.outline.ctagsFilestypes": {
-      "type": "array",
-      "default": [],
-      "description": "Filetypes that should use ctags for outline instead of language server.",
       "items": {
         "type": "string"
       }
