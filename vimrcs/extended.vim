@@ -104,10 +104,9 @@ inoremap $e ""<esc>i
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Tmux
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Repeat last command in right pane of current window
+" Repeat last command in last window
 " Useful for running tests after changes without leaving vim
-nmap \r :!tmux send-keys -t right C-p C-j <CR><CR>
-
+nmap \r :!tmux send-keys -t {last} C-p C-j <CR><CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General abbreviations
