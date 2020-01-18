@@ -108,7 +108,8 @@ set rtp+=/usr/local/opt/fzf
 let g:coc_global_extensions = [
 \ 'coc-emoji', 'coc-eslint', 'coc-prettier',
 \ 'coc-tsserver', 'coc-tslint', 'coc-tslint-plugin',
-\ 'coc-css', 'coc-json', 'coc-python', 'coc-yaml'
+\ 'coc-css', 'coc-json', 'coc-python', 'coc-yaml',
+\ 'coc-rls'
 \]
 
 " if hidden is not set, TextEdit might fail.
