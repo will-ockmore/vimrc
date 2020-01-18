@@ -203,6 +203,7 @@ formatting.
 * HTML
   * [alex](https://github.com/wooorm/alex) :floppy_disk:
   * [fecs](http://fecs.baidu.com/)
+  * [html-beautify](https://beautifier.io/)
   * [HTMLHint](http://htmlhint.com/)
   * [prettier](https://github.com/prettier/prettier)
   * [proselint](http://proselint.com/)
@@ -291,6 +292,8 @@ formatting.
   * [nasm](https://www.nasm.us/) :floppy_disk:
 * Nim
   * [nim check](https://nim-lang.org/docs/nimc.html) :floppy_disk:
+  * [nimlsp](https://github.com/PMunch/nimlsp)
+  * nimpretty
 * nix
   * [nix-instantiate](http://nixos.org/nix/manual/#sec-nix-instantiate)
   * [nixpkgs-fmt](https://github.com/nix-community/nixpkgs-fmt)
@@ -342,8 +345,8 @@ formatting.
 * Pony
   * [ponyc](https://github.com/ponylang/ponyc)
 * PowerShell
-  * [powershell](https://github.com/PowerShell/PowerShell) :floppy_disk
-  * [psscriptanalyzer](https://github.com/PowerShell/PSScriptAnalyzer) :floppy_disk
+  * [powershell](https://github.com/PowerShell/PowerShell) :floppy_disk:
+  * [psscriptanalyzer](https://github.com/PowerShell/PSScriptAnalyzer) :floppy_disk:
 * Prolog
   * [swipl](https://github.com/SWI-Prolog/swipl-devel)
 * proto
@@ -356,6 +359,7 @@ formatting.
   * [puppet-lint](https://puppet-lint.com)
 * PureScript
   * [purescript-language-server](https://github.com/nwolverson/purescript-language-server)
+  * [purty](https://gitlab.com/joneshf/purty)
 * Python
   * [autopep8](https://github.com/hhatto/autopep8)
   * [bandit](https://github.com/PyCQA/bandit) :warning:
@@ -474,6 +478,7 @@ formatting.
   * [eslint](http://eslint.org/)
   * [fecs](http://fecs.baidu.com/)
   * [prettier](https://github.com/prettier/prettier)
+  * [standard](http://standardjs.com/)
   * [tslint](https://github.com/palantir/tslint)
   * [tsserver](https://github.com/Microsoft/TypeScript/wiki/Standalone-Server-%28tsserver%29)
   * typecheck

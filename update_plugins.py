@@ -36,7 +36,6 @@ lightline.vim https://github.com/itchyny/lightline.vim master
 lightline-ale https://github.com/maximbaz/lightline-ale master
 vim-markdown https://github.com/plasticboy/vim-markdown master
 comfortable-motion.vim https://github.com/yuttie/comfortable-motion.vim master
-golden-ratio https://github.com/roman/golden-ratio master
 """.strip()
 
 
