@@ -21,7 +21,6 @@ auto-pairs https://github.com/jiangmiao/auto-pairs master
 ale https://github.com/w0rp/ale master
 vim-yankstack https://github.com/maxbrunsfeld/vim-yankstack master
 nerdtree https://github.com/scrooloose/nerdtree master
-ctrlsf.vim https://github.com/dyng/ctrlsf.vim master
 vim-colors-solarized https://github.com/altercation/vim-colors-solarized master
 vim-indent-object https://github.com/michaeljsmith/vim-indent-object master
 vim-surround https://github.com/tpope/vim-surround master
