@@ -224,11 +224,13 @@ function! s:newlsp() abort
   function! l:lsp.updateDiagnostics() dict abort
     for l:data in self.diagnosticsQueue
       call remove(self.diagnosticsQueue, 0)
+
       try
         let l:diagnostics = []
         let l:errorMatches = []
         let l:warningMatches = []
         let l:fname = go#path#FromURI(l:data.uri)
+
         " get the buffer name relative to the current directory, because
         " Vim says that a buffer name can't be an absolute path.
         let l:bufname = fnamemodify(l:fname, ':.')
@@ -238,13 +240,11 @@ function! s:newlsp() abort
           if !bufexists(l:bufname)
             "let l:starttime = reltime()
             call bufadd(l:bufname)
-            "echom printf('added %s (%s)', l:bufname, reltimestr(reltime(l:startime)))
           endif
 
           if !bufloaded(l:bufname)
             "let l:starttime = reltime()
             call bufload(l:bufname)
-            "echom printf('loaded %s (%s)', l:bufname, reltimestr(reltime(l:starttime)))
           endif
 
           for l:diag in l:data.diagnostics
@@ -267,6 +267,14 @@ function! s:newlsp() abort
         endif
 
         if bufnr(l:bufname) == bufnr('')
+          " only apply highlighting when the diagnostics are for the current
+          " version.
+          let l:lsp = s:lspfactory.get()
+          let l:version = get(l:lsp.fileVersions, l:fname, 0)
+          " it's tempting to only highlight matches when they are for the
+          " current version of the buffer, but that causes problems when the
+          " version number has been updated and the content has not. In such a
+          " case, the diagnostics may not be sent for later versions.
           call s:highlightMatches(l:errorMatches, l:warningMatches)
         endif
 
@@ -431,8 +439,8 @@ function! s:newlsp() abort
   endfunction
 
   function! l:lsp.err_cb(ch, msg) dict abort
-    if a:msg =~ '^\tPort = \d\+$' && !get(self, 'debugport', 0)
-      let self.debugport = substitute(a:msg, 'debug server listening on port \(\d\+\).*$', '\1', '')
+    if a:msg =~ '^\d\{4}/\d\d/\d\d\ \d\d:\d\d:\d\d debug server listening on port \d\+$' && !get(self, 'debugport', 0)
+      let self.debugport = substitute(a:msg, '\d\{4}/\d\d/\d\d\ \d\d:\d\d:\d\d debug server listening on port \(\d\+\).*$', '\1', '')
     endif
 
     call s:debug('stderr', a:msg)
@@ -458,11 +466,26 @@ function! s:newlsp() abort
   endif
 
   let l:cmd = [l:bin_path]
+  let l:cmdopts = go#config#GoplsOptions()
+
   if go#util#HasDebug('lsp')
-    let l:cmd = extend(l:cmd, ['-debug', 'localhost:0'])
+    " debugging can be enabled either with g:go_debug or with
+    " g:go_gopls_options; use g:go_gopls_options if it's given in case users
+    " are running the gopls debug server on a known port.
+    let l:needsDebug = 1
+
+    for l:item in l:cmdopts
+      let l:idx = stridx(l:item, '-debug')
+      if l:idx == 0 || l:idx == 1
+        let l:needsDebug = 0
+      endif
+    endfor
+    if l:needsDebug
+      let l:cmd = extend(l:cmd, ['-debug', 'localhost:0'])
+    endif
   endif
 
-  let l:lsp.job = go#job#Start(l:cmd, l:opts)
+  let l:lsp.job = go#job#Start(l:cmd+l:cmdopts, l:opts)
 
   return l:lsp
 endfunction
@@ -744,7 +767,12 @@ function! s:sameIDsHandler(next, msg) abort dict
         \ 'enclosing': [],
       \ }
 
-  for l:loc in a:msg
+  let l:msg = a:msg
+  if a:msg is v:null
+    let l:msg = []
+  endif
+
+  for l:loc in l:msg
     if l:loc.uri !=# l:furi
       continue
     endif
@@ -787,9 +815,15 @@ endfunction
 function! s:referencesHandler(next, msg) abort dict
   let l:result = []
 
-  call sort(a:msg, funcref('s:compareLocations'))
+  let l:msg = a:msg
 
-  for l:loc in a:msg
+  if l:msg is v:null
+    let l:msg = []
+  endif
+
+  call sort(l:msg, funcref('s:compareLocations'))
+
+  for l:loc in l:msg
     let l:fname = go#path#FromURI(l:loc.uri)
     let l:line = l:loc.range.start.line+1
     let l:bufnr = bufnr(l:fname)
@@ -887,6 +921,10 @@ endfunction
 
 function! s:infoDefinitionHandler(next, showstatus, msg) abort dict
   " gopls returns a []Location; just take the first one.
+  if a:msg is v:null || len(a:msg) == 0
+    return
+  endif
+
   let l:msg = a:msg[0]
 
   let l:fname = go#path#FromURI(l:msg.uri)
@@ -1044,8 +1082,10 @@ function! s:exit(restart) abort
   return l:retval
 endfunction
 
-function! s:debugasync(event, data, timer) abort
+let s:log = []
+function! s:debugasync(timer) abort
   if !go#util#HasDebug('lsp')
+    let s:log = []
     return
   endif
 
@@ -1064,11 +1104,15 @@ function! s:debugasync(event, data, timer) abort
 
   try
     setlocal modifiable
-    if getline(1) == ''
-      call setline('$', printf('%s: %s', a:event, a:data))
-    else
-      call append('$', printf('%s: %s', a:event, a:data))
-    endif
+    for [l:event, l:data] in s:log
+      call remove(s:log, 0)
+      if getline(1) == ''
+        call setline('$', printf('===== %s =====', l:event))
+      else
+        call append('$', printf('===== %s =====', l:event))
+      endif
+      call append('$', split(l:data, "\r\n"))
+    endfor
     normal! G
     setlocal nomodifiable
   finally
@@ -1077,7 +1121,12 @@ function! s:debugasync(event, data, timer) abort
 endfunction
 
 function! s:debug(event, data, ...) abort
-  call timer_start(10, function('s:debugasync', [a:event, a:data]))
+  let l:shouldStart = len(s:log) > 0
+  let s:log = add(s:log, [a:event, a:data])
+
+  if l:shouldStart
+    call timer_start(10, function('s:debugasync', []))
+  endif
 endfunction
 
 function! s:compareLocations(left, right) abort
@@ -1219,17 +1268,131 @@ function! s:highlightMatches(errorMatches, warningMatches) abort
   " redisplayed in an existing window: e.g. :edit,
   augroup vim-go-diagnostics
     autocmd! * <buffer>
-    autocmd BufWinEnter <buffer> nested call s:highlightMatches(b:go_diagnostic_matches.errors, b:go_diagnostic_matches.warnings)
+    autocmd BufDelete <buffer> autocmd! vim-go-diagnostics * <buffer=abuf>
+    if has('textprop')
+      autocmd BufReadPost <buffer> nested call s:highlightMatches(b:go_diagnostic_matches.errors, b:go_diagnostic_matches.warnings)
+    else
+      autocmd BufWinEnter <buffer> nested call s:highlightMatches(b:go_diagnostic_matches.errors, b:go_diagnostic_matches.warnings)
+    endif
   augroup end
 endfunction
 
-" ClearDiagnosticsHighlights removes all goDiagnosticError and
+" ClearDiagnosticHighlights removes all goDiagnosticError and
 " goDiagnosticWarning matches.
 function! go#lsp#ClearDiagnosticHighlights() abort
   call go#util#ClearHighlights('goDiagnosticError')
   call go#util#ClearHighlights('goDiagnosticWarning')
 endfunction
 
+" Format formats the current buffer.
+function! go#lsp#Format() abort
+  let l:fname = expand('%:p')
+  " send the current file so that TextEdits will be relative to the current
+  " state of the buffer.
+  call go#lsp#DidChange(l:fname)
+
+  let l:lsp = s:lspfactory.get()
+
+  let l:state = s:newHandlerState('format')
+  let l:formatHandler = go#promise#New(function('s:formatHandler', [], l:state), 10000, '')
+  let l:state.handleResult = l:formatHandler.wrapper
+  let l:state.error = l:formatHandler.wrapper
+  let l:state.handleError = function('s:handleFormatError', [l:fname], l:state)
+  let l:msg = go#lsp#message#Format(l:fname)
+  call l:lsp.sendMessage(l:msg, l:state)
+
+  " await the result to avoid any race conditions among autocmds (e.g.
+  " BufWritePre and BufWritePost)
+  call formatHandler.await()
+endfunction
+
+function! s:formatHandler(msg) abort dict
+  if a:msg is v:null
+    return
+  endif
+
+  if type(a:msg) is type('')
+    call self.handleError(a:msg)
+    return
+  endif
+
+  " process the TextEdit list in reverse order, because the positions are
+  " based on the current line numbers; processing in forward order would
+  " require keeping track of how the proper position of each TextEdit would be
+  " affected by all the TextEdits that came before.
+  call reverse(sort(a:msg, function('s:textEditLess')))
+  for l:msg in a:msg
+    let l:startline = l:msg.range.start.line+1
+    let l:endline = l:msg.range.end.line+1
+    let l:text = l:msg.newText
+
+    " handle the deletion of whole lines
+    if len(l:text) == 0 && l:msg.range.start.character == 0 && l:msg.range.end.character == 0 && l:startline < l:endline
+      call deletebufline('', l:startline, l:endline-1)
+      continue
+    endif
+
+    let l:startcontent = getline(l:startline)
+    let l:preSliceEnd = 0
+    if l:msg.range.start.character > 0
+      let l:preSliceEnd = go#lsp#lsp#PositionOf(l:startcontent, l:msg.range.start.character-1) - 1
+    endif
+
+    let l:endcontent = getline(l:endline)
+    let l:postSliceStart = 0
+    if l:msg.range.end.character > 0
+      let l:postSliceStart = go#lsp#lsp#PositionOf(l:endcontent, l:msg.range.end.character-1)
+    endif
+
+    " There isn't an easy way to replace the text in a byte or character
+    " range, so append any text on l:endline starting from l:tailidx to l:text,
+    " prepend any text on l:startline prior to l:prelen to l:text, and
+    " finally replace the lines with a delete followed by and append.
+    let l:text = printf('%s%s%s', l:startcontent[:l:preSliceEnd], l:text, l:endcontent[(l:postSliceStart):])
+
+    " TODO(bc): deal with the undo file
+    " TODO(bc): deal with folds
+
+    call execute(printf('%d,%d d_', l:startline, l:endline))
+    call append(l:startline-1, l:text)
+  endfor
+
+  call go#lsp#DidChange(expand('%:p'))
+  return
+endfunction
+
+function! s:handleFormatError(filename, msg) abort dict
+  if !go#config#FmtFailSilently()
+    let l:errors = split(a:msg, '\n')
+    let l:errors = map(l:errors, printf('substitute(v:val, ''^'', ''%s:'', '''')', a:filename))
+    let l:errors = join(l:errors, "\n")
+    call go#fmt#ShowErrors(l:errors)
+  endif
+endfunction
+
+function! s:textEditLess(left, right) abort
+  " TextEdits in a TextEdit[] never overlap and Vim's sort() is stable.
+  if a:left.range.start.line < a:right.range.start.line
+    return -1
+  endif
+
+  if a:left.range.start.line > a:right.range.start.line
+    return 1
+  endif
+
+  if a:left.range.start.line == a:right.range.start.line
+    if a:left.range.start.character < a:right.range.start.character
+      return -1
+    endif
+
+    if a:left.range.start.character > a:right.range.start.character
+      return 1
+    endif
+  endif
+
+  " return 0, because a:left an a:right refer to the same position.
+  return 0
+endfunction
 " restore Vi compatibility settings
 let &cpo = s:cpo_save
 unlet s:cpo_save
