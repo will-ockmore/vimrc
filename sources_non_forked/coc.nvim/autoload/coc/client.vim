@@ -91,11 +91,7 @@ function! s:on_exit(name, code) abort
   endif
 endfunction
 
-function! coc#client#get_client(name) abort
-  return get(s:clients, a:name, v:null)
-endfunction
-
-function! coc#client#get_channel(client)
+function! s:get_channel(client)
   if s:is_vim
     return a:client['channel']
   endif
@@ -103,7 +99,7 @@ function! coc#client#get_channel(client)
 endfunction
 
 function! s:request(method, args) dict
-  let channel = coc#client#get_channel(self)
+  let channel = s:get_channel(self)
   if empty(channel) | return '' | endif
   try
     if s:is_vim
@@ -135,10 +131,8 @@ function! s:request(method, args) dict
 endfunction
 
 function! s:notify(method, args) dict
-  let channel = coc#client#get_channel(self)
-  if empty(channel)
-    return ''
-  endif
+  let channel = s:get_channel(self)
+  if empty(channel) | return '' | endif
   try
     if s:is_vim
       call ch_sendraw(channel, json_encode([0, [a:method, a:args]])."\n")
@@ -147,9 +141,7 @@ function! s:notify(method, args) dict
     endif
   catch /.*/
     if v:exception =~# 'E475'
-      if get(g:, 'coc_vim_leaving', 0)
-        return
-      endif
+      if get(g:, 'coc_vim_leaving', 0) | return | endif
       echohl Error | echom '['.self.name.'] server connection lost' | echohl None
       let name = self.name
       call s:on_exit(name, 0)
@@ -163,7 +155,7 @@ function! s:notify(method, args) dict
 endfunction
 
 function! s:request_async(method, args, cb) dict
-  let channel = coc#client#get_channel(self)
+  let channel = s:get_channel(self)
   if empty(channel) | return '' | endif
   if type(a:cb) != 2
     echohl Error | echom '['.self['name'].'] Callback should be function' | echohl None

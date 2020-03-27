@@ -1,3 +1,5 @@
+let s:t_string = type('')
+
 " Primary functions {{{
 
 function! gitgutter#all(force) abort
@@ -33,11 +35,9 @@ function! gitgutter#process_buffer(bufnr, force) abort
       return
     endif
 
-    call gitgutter#utility#set_diff_base_if_fugitive(a:bufnr)
-
     if a:force || s:has_fresh_changes(a:bufnr)
 
-      let diff = 'NOT SET'
+      let diff = ''
       try
         let diff = gitgutter#diff#run_diff(a:bufnr, g:gitgutter_diff_relative_to, 0)
       catch /gitgutter not tracked/
@@ -47,7 +47,7 @@ function! gitgutter#process_buffer(bufnr, force) abort
         call gitgutter#hunk#reset(a:bufnr)
       endtry
 
-      if diff != 'async' && diff != 'NOT SET'
+      if diff != 'async'
         call gitgutter#diff#handler(a:bufnr, diff)
       endif
 
@@ -156,7 +156,11 @@ function! gitgutter#setup_maps()
 endfunction
 
 function! s:setup_path(bufnr, continuation)
-  if gitgutter#utility#has_repo_path(a:bufnr) | return | endif
+  let p = gitgutter#utility#repo_path(a:bufnr, 0)
+
+  if type(p) == s:t_string && !empty(p)  " if path is known
+    return
+  endif
 
   return gitgutter#utility#set_repo_path(a:bufnr, a:continuation)
 endfunction

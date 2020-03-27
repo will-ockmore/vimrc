@@ -58,14 +58,14 @@ endfunction
 
 " Parse parses the given items based on the specified errorformat and
 " populates the list.
-function! go#list#ParseFormat(listtype, errformat, items, title, add) abort
+function! go#list#ParseFormat(listtype, errformat, items, title) abort
   " backup users errorformat, will be restored once we are finished
   let old_errorformat = &errorformat
 
   " parse and populate the location list
   let &errorformat = a:errformat
   try
-    call go#list#Parse(a:listtype, a:items, a:title, a:add)
+    call go#list#Parse(a:listtype, a:items, a:title)
   finally
     "restore back
     let &errorformat = old_errorformat
@@ -74,25 +74,12 @@ endfunction
 
 " Parse parses the given items based on the global errorformat and
 " populates the list.
-function! go#list#Parse(listtype, items, title, add) abort
-  let l:list = []
-  if a:add
-    let l:list = go#list#Get(a:listtype)
-  endif
-
+function! go#list#Parse(listtype, items, title) abort
   if a:listtype == "locationlist"
-    if a:add
-      laddexpr a:items
-    else
-      lgetexpr a:items
-    endif
+    lgetexpr a:items
     call setloclist(0, [], 'a', {'title': a:title})
   else
-    if a:add
-      caddexpr a:items
-    else
-      cgetexpr a:items
-    endif
+    cgetexpr a:items
     call setqflist([], 'a', {'title': a:title})
   endif
 endfunction

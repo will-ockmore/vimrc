@@ -284,11 +284,7 @@ endfunction
 function! s:UI._indentLevelFor(line)
     " Replace multi-character DirArrows with a single space so the
     " indentation calculation doesn't get messed up.
-    if g:NERDTreeDirArrowExpandable ==# ''
-        let l:line = '  '.a:line
-    else
-        let l:line = substitute(substitute(a:line, '\V'.g:NERDTreeDirArrowExpandable, ' ', ''), '\V'.g:NERDTreeDirArrowCollapsible, ' ', '')
-    endif
+    let l:line = substitute(substitute(a:line, '\V'.g:NERDTreeDirArrowExpandable, ' ', ''), '\V'.g:NERDTreeDirArrowCollapsible, ' ', '')
     let leadChars = match(l:line, '\M\[^ ]')
     return leadChars / s:UI.IndentWid()
 endfunction

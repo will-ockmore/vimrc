@@ -3,7 +3,7 @@ let s:cpo_save = &cpo
 set cpo&vim
 
 func! Test_GoTermNewMode()
-  if !(has('nvim') || has('terminal'))
+  if !has('nvim')
     return
   endif
 
@@ -28,7 +28,7 @@ func! Test_GoTermNewMode()
 endfunc
 
 func! Test_GoTermNewMode_SplitRight()
-  if !(has('nvim') || has('terminal'))
+  if !has('nvim')
     return
   endif
 

@@ -336,11 +336,15 @@ function! ale#util#GetMatches(lines, patterns) abort
 endfunction
 
 function! s:LoadArgCount(function) abort
-    try
-        let l:output = execute('function a:function')
-    catch /E123/
+    let l:Function = a:function
+
+    redir => l:output
+        silent! function Function
+    redir END
+
+    if !exists('l:output')
         return 0
-    endtry
+    endif
 
     let l:match = matchstr(split(l:output, "\n")[0], '\v\([^)]+\)')[1:-2]
     let l:arg_list = filter(split(l:match, ', '), 'v:val isnot# ''...''')

@@ -484,11 +484,7 @@ function! s:same_ids_highlight(exit_val, output, mode) abort
     " is redisplayed: e.g. :edit, :GoRename, etc.
     augroup vim-go-sameids
       autocmd! * <buffer>
-      if has('textprop')
-        autocmd BufReadPost <buffer> nested call go#guru#SameIds(0)
-      else
-        autocmd BufWinEnter <buffer> nested call go#guru#SameIds(0)
-      endif
+      autocmd BufWinEnter <buffer> nested call go#guru#SameIds(0)
     augroup end
   endif
 endfunction
@@ -552,7 +548,7 @@ function! s:parse_guru_output(exit_val, output, title) abort
 
   let errformat = "%f:%l.%c-%[%^:]%#:\ %m,%f:%l:%c:\ %m"
   let l:listtype = go#list#Type("_guru")
-  call go#list#ParseFormat(l:listtype, errformat, a:output, a:title, 0)
+  call go#list#ParseFormat(l:listtype, errformat, a:output, a:title)
 
   let errors = go#list#Get(l:listtype)
   call go#list#Window(l:listtype, len(errors))

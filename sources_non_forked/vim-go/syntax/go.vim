@@ -399,7 +399,7 @@ function! s:hi()
   " filetype plugin on, the highlight groups won't be defined when
   " ftplugin/go.vim is executed when the first go file is opened.
   " See https://github.com/fatih/vim-go/issues/2658.
-  if has('textprop')
+  if exists('*prop_type_add')
     if empty(prop_type_get('goSameId'))
       call prop_type_add('goSameId', {'highlight': 'goSameId'})
     endif

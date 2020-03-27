@@ -20,6 +20,7 @@ coc.nvim https://github.com/neoclide/coc.nvim release
 auto-pairs https://github.com/jiangmiao/auto-pairs master
 ale https://github.com/w0rp/ale master
 vim-yankstack https://github.com/maxbrunsfeld/vim-yankstack master
+ack.vim https://github.com/mileszs/ack.vim master
 nerdtree https://github.com/scrooloose/nerdtree master
 vim-colors-solarized https://github.com/altercation/vim-colors-solarized master
 vim-indent-object https://github.com/michaeljsmith/vim-indent-object master

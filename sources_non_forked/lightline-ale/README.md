@@ -30,7 +30,6 @@ let g:lightline = {}
 
 let g:lightline.component_expand = {
       \  'linter_checking': 'lightline#ale#checking',
-      \  'linter_infos': 'lightline#ale#infos',
       \  'linter_warnings': 'lightline#ale#warnings',
       \  'linter_errors': 'lightline#ale#errors',
       \  'linter_ok': 'lightline#ale#ok',
@@ -41,18 +40,17 @@ let g:lightline.component_expand = {
 
 ```viml
 let g:lightline.component_type = {
-      \     'linter_checking': 'right',
-      \     'linter_infos': 'right',
+      \     'linter_checking': 'left',
       \     'linter_warnings': 'warning',
       \     'linter_errors': 'error',
-      \     'linter_ok': 'right',
+      \     'linter_ok': 'left',
       \ }
 ```
 
 3. Add the components to the lightline, for example to the right side:
 
 ```viml
-let g:lightline.active = { 'right': [[ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok' ]] }
+let g:lightline.active = { 'right': [[ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ]] }
 ```
 
 ## Configuration
@@ -60,10 +58,6 @@ let g:lightline.active = { 'right': [[ 'linter_checking', 'linter_errors', 'lint
 ##### `g:lightline#ale#indicator_checking`
 
 The indicator to use when ALE is in progress. Default is `Linting...`.
-
-##### `g:lightline#ale#indicator_infos`
-
-The indicator to use when there are infos. Default is `I:`.
 
 ##### `g:lightline#ale#indicator_warnings`
 
@@ -84,7 +78,6 @@ If you would like to replace the default indicators with symbols like on the scr
 The following icons from the Font Awesome font are used in the screenshot:
 
 * Checking: [f110](https://fontawesome.com/icons/spinner)
-* Infos: [f129](https://fontawesome.com/icons/info)
 * Warnings: [f071](https://fontawesome.com/icons/exclamation-triangle)
 * Errors: [f05e](https://fontawesome.com/icons/ban)
 * OK: [f00c](https://fontawesome.com/icons/check) (although I prefer to disable this component)
@@ -100,7 +93,6 @@ Here's the configuration snippet used in the screenshot:
 
 ```viml
 let g:lightline#ale#indicator_checking = "\uf110"
-let g:lightline#ale#indicator_infos = "\uf129"
 let g:lightline#ale#indicator_warnings = "\uf071"
 let g:lightline#ale#indicator_errors = "\uf05e"
 let g:lightline#ale#indicator_ok = "\uf00c"

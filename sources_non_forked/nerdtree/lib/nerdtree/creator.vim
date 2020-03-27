@@ -355,20 +355,17 @@ function! s:Creator.ToggleTabTree(dir)
 endfunction
 
 " FUNCTION: s:Creator.toggleTabTree(dir) {{{1
-" Toggles the NERD tree. I.e if the NERD tree is open, it is closed. If it is
-" closed, it is restored or initialized. If dir is not empty, it will be set
-" as the new root.
+" Toggles the NERD tree. I.e the NERD tree is open, it is closed, if it is
+" closed it is restored or initialized (if it doesnt exist)
 "
 " Args:
-" dir: the full path for the root node (is used if the NERD tree is being
-" initialized, or to change the root to a new dir.)
+" dir: the full path for the root node (is only used if the NERD tree is being
+" initialized.
 function! s:Creator.toggleTabTree(dir)
     if g:NERDTree.ExistsForTab()
         if !g:NERDTree.IsOpen()
             call self._createTreeWin()
-            if !empty(a:dir)
-                call self.createTabTree(a:dir)
-            elseif !&hidden
+            if !&hidden
                 call b:NERDTree.render()
             endif
             call b:NERDTree.ui.restoreScreenState()
