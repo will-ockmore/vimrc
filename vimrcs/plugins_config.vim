@@ -102,7 +102,7 @@ set rtp+=~/.fzf
 set rtp+=/usr/local/opt/fzf
 
 " Search files (Ctrl-shift-f behaviour)
-map <leader>g :Rg
+map <leader>g :Rg<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => coc.nvm
