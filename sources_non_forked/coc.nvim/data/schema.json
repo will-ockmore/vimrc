@@ -88,6 +88,11 @@
           "description": "Configure message level to show the output channel buffer",
           "enum": ["info", "warn", "error", "never"]
         },
+        "progressOnInitialization": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable progress report on languageserver initialize."
+        },
         "initializationOptions": {
           "type": "object",
           "default": {},
@@ -132,6 +137,7 @@
         "filetypes": {},
         "additionalSchemes": {},
         "revealOutputChannelOn": {},
+        "progressOnInitialization": {},
         "initializationOptions": {},
         "settings": {},
         "stdioEncoding": {},
@@ -193,6 +199,7 @@
         "filetypes": {},
         "additionalSchemes": {},
         "revealOutputChannelOn": {},
+        "progressOnInitialization": {},
         "initializationOptions": {},
         "stdioEncoding": {},
         "settings": {},
@@ -241,6 +248,7 @@
         "filetypes": {},
         "additionalSchemes": {},
         "revealOutputChannelOn": {},
+        "progressOnInitialization": {},
         "initializationOptions": {},
         "stdioEncoding": {},
         "settings": {},
@@ -258,6 +266,10 @@
       "type": "boolean",
       "default": true
     },
+    "https.rejectUnauthorized": {
+      "type": "boolean",
+      "default": true
+    },
     "npm.binPath": {
       "type": "string",
       "default": "npm",
@@ -266,7 +278,7 @@
     "suggest.enablePreselect": {
       "type": "boolean",
       "description": "Enable preselect feature, only works on neovim",
-      "default": true
+      "default": false
     },
     "suggest.maxPreviewWidth": {
       "type": "number",
@@ -364,7 +376,7 @@
       "type": "integer",
       "default": 5000,
       "minimum": 500,
-      "maximum": 5000,
+      "maximum": 15000,
       "description": "Timeout for completion, in miliseconds."
     },
     "suggest.minTriggerInputLength": {
@@ -482,7 +494,7 @@
     },
     "diagnostic.checkCurrentLine": {
       "type": "boolean",
-      "description": "When enabled, show all diagnostics of current line instead of current position.",
+      "description": "When enabled, show all diagnostics of current line if there are none at the current position.",
       "default": false
     },
     "diagnostic.messageTarget": {
@@ -541,6 +553,11 @@
       "default": true,
       "description": "Enable signs for diagnostics."
     },
+    "diagnostic.enableHighlightLineNumber": {
+      "type": "boolean",
+      "default": true,
+      "description": "Enable highlighting line numbers for diagnostics, only works with neovim and diagnostic.enableSign is true."
+    },
     "diagnostic.enableMessage": {
       "type": "string",
       "default": "always",
@@ -596,6 +613,11 @@
       "type": "object",
       "description": "A map between buffer filetype and the filetype assigned to diagnostics. To syntax highlight diagnostics withs their parent buffer type use '\"default\": \"bufferType\"'",
       "default": {}
+    },
+    "diagnostic.format": {
+      "type": "string",
+      "description": "Define the diagnostic format. Available parts: source, code, severity, message",
+      "default": "[%source%code] [%severity] %message"
     },
     "signature.enable": {
       "type": "boolean",
@@ -852,6 +874,14 @@
       "type": "boolean",
       "description": "Set to true to enable format on type",
       "default": false
+    },
+    "coc.preferences.formatOnTypeFiletypes": {
+      "type": "array",
+      "default": [],
+      "description": "Filetypes that should run format on typing. Only take effect when `coc.preferences.formatOnType` set `true`",
+      "items": {
+        "type": "string"
+      }
     },
     "coc.preferences.highlightTimeout": {
       "type": "integer",
