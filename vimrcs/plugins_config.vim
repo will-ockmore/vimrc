@@ -101,6 +101,9 @@ map <C-f> :FZF<CR>
 set rtp+=~/.fzf
 set rtp+=/usr/local/opt/fzf
 
+" Search files (Ctrl-shift-f behaviour)
+map <leader>g :Rg
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => coc.nvm
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
