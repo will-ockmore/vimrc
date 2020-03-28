@@ -29,7 +29,6 @@ vim-expand-region https://github.com/terryma/vim-expand-region master
 goyo.vim https://github.com/junegunn/goyo.vim master
 vim-repeat https://github.com/tpope/vim-repeat master
 vim-commentary https://github.com/tpope/vim-commentary master
-vim-go https://github.com/fatih/vim-go master
 vim-gitgutter https://github.com/airblade/vim-gitgutter master
 gruvbox https://github.com/morhetz/gruvbox master
 lightline.vim https://github.com/itchyny/lightline.vim master
