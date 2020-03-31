@@ -104,6 +104,9 @@ set rtp+=/usr/local/opt/fzf
 " Search files (Ctrl-shift-f behaviour)
 map <leader>g :Rg 
 
+" Search buffers
+map <leader>b :Buffers<CR>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => coc.nvm
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
