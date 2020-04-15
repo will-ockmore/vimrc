@@ -97,15 +97,21 @@ let g:comfortable_motion_no_default_key_mappings = 1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => FZF
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <C-f> :FZF<CR>
 set rtp+=~/.fzf
 set rtp+=/usr/local/opt/fzf
 
-" Search files (Ctrl-shift-f behaviour)
-map <leader>g :Rg 
+" Search filenames
+command! -bang -nargs=? -complete=dir FzfFilesWithPreview
+    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+
+nnoremap <C-f> :FZF<CR>
+nnoremap <C-F> :FzfFilesWithPreview<CR>
+
+" Search file contents (Ctrl-shift-f behaviour)
+nnoremap <leader>g :Rg 
 
 " Search buffers
-map <leader>b :Buffers<CR>
+nnoremap <leader>b :Buffers<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => coc.nvm
