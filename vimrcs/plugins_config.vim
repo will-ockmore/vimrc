@@ -105,7 +105,7 @@ command! -bang -nargs=? -complete=dir FzfFilesWithPreview
     \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
 nnoremap <C-f> :FZF<CR>
-nnoremap <C-F> :FzfFilesWithPreview<CR>
+nnoremap <leader>f :FzfFilesWithPreview!<CR>
 
 " Search file contents (Ctrl-shift-f behaviour)
 nnoremap <leader>g :Rg 
