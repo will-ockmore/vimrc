@@ -1,0 +1,9 @@
+{
+    "coc.preferences.formatOnSaveFiletypes": ["css", "markdown", "javascript", "python", "json", "rust"],
+    "python.formatting.provider": "black",
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true,
+    "python.jediPath": "/Users/will/.pyenv/versions/3.7.3/lib/python3.7/site-packages",
+    "python.formatting.blackPath": "/Users/will/.pyenv/versions/3.7.3/bin/black"
+}
