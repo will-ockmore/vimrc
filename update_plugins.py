@@ -15,26 +15,27 @@ from os import path
 
 
 # --- Globals ----------------------------------------------
+
 PLUGINS = """
-coc.nvim https://github.com/neoclide/coc.nvim release
 auto-pairs https://github.com/jiangmiao/auto-pairs master
-ale https://github.com/w0rp/ale master
-vim-yankstack https://github.com/maxbrunsfeld/vim-yankstack master
-nerdtree https://github.com/scrooloose/nerdtree master
-fzf.vim https://github.com/junegunn/fzf.vim master
-vim-colors-solarized https://github.com/altercation/vim-colors-solarized master
-vim-indent-object https://github.com/michaeljsmith/vim-indent-object master
-vim-surround https://github.com/tpope/vim-surround master
-vim-expand-region https://github.com/terryma/vim-expand-region master
-goyo.vim https://github.com/junegunn/goyo.vim master
-vim-repeat https://github.com/tpope/vim-repeat master
-vim-commentary https://github.com/tpope/vim-commentary master
-vim-gitgutter https://github.com/airblade/vim-gitgutter master
-gruvbox https://github.com/morhetz/gruvbox master
-lightline.vim https://github.com/itchyny/lightline.vim master
-lightline-ale https://github.com/maximbaz/lightline-ale master
-vim-markdown https://github.com/plasticboy/vim-markdown master
+coc.nvim https://github.com/neoclide/coc.nvim release
 comfortable-motion.vim https://github.com/yuttie/comfortable-motion.vim master
+goyo.vim https://github.com/junegunn/goyo.vim master
+gruvbox https://github.com/morhetz/gruvbox master
+lightline-ale https://github.com/maximbaz/lightline-ale master
+lightline.vim https://github.com/itchyny/lightline.vim master
+nerdtree https://github.com/scrooloose/nerdtree master
+typescript-vim https://github.com/leafgarland/typescript-vim master
+vim-colors-solarized https://github.com/altercation/vim-colors-solarized master
+vim-commentary https://github.com/tpope/vim-commentary master
+vim-expand-region https://github.com/terryma/vim-expand-region master
+vim-gitgutter https://github.com/airblade/vim-gitgutter master
+vim-indent-object https://github.com/michaeljsmith/vim-indent-object master
+vim-jsx-typescript https://github.com/peitalin/vim-jsx-typescript master
+vim-markdown https://github.com/plasticboy/vim-markdown master
+vim-repeat https://github.com/tpope/vim-repeat master
+vim-surround https://github.com/tpope/vim-surround master
+vim-yankstack https://github.com/maxbrunsfeld/vim-yankstack master
 """.strip()
 
 
