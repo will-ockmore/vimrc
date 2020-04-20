@@ -33,6 +33,7 @@ vim-gitgutter https://github.com/airblade/vim-gitgutter master
 vim-indent-object https://github.com/michaeljsmith/vim-indent-object master
 vim-jsx-typescript https://github.com/peitalin/vim-jsx-typescript master
 vim-markdown https://github.com/plasticboy/vim-markdown master
+vim-notes https://github.com/will-ockmore/vim-notes master
 vim-repeat https://github.com/tpope/vim-repeat master
 vim-surround https://github.com/tpope/vim-surround master
 vim-yankstack https://github.com/maxbrunsfeld/vim-yankstack master

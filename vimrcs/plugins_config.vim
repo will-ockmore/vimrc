@@ -160,3 +160,8 @@ xmap af <Plug>(coc-funcobj-a)
 omap if <Plug>(coc-funcobj-i)
 omap af <Plug>(coc-funcobj-a)
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => vim-notes
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap <leader>ne :Notes<CR>
+
