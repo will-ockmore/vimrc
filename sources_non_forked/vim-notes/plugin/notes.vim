@@ -21,18 +21,24 @@
 " OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 " WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-let g:notes_dir = $HOME . "/.notes"
+let s:save_cpo = &cpo
+set cpo&vim
 
-function! Trim(string)
+let g:notes_dir = $HOME . "/notes"
+
+function! s:Trim(string)
   return substitute(a:string, '\n\+$', '', '')
 endfunction
 
-function! NotesEntry()
+function! s:NotesEntry()
   if !isdirectory(g:notes_dir)
       call mkdir(g:notes_dir, "p")
   endif
 
-  execute "edit " . g:notes_dir . "/" . Trim(system('date +"%d-%m-%Y"')) . ".md"
+  execute "edit " . g:notes_dir . "/" . s:Trim(system('date +"%d-%m-%Y"')) . ".md"
 endfunction
 
-command! -nargs=? Notes call NotesEntry()<CR>
+command! Notes call s:NotesEntry()<CR>
+
+let &cpo = s:save_cpo 
+unlet s:save_cpo
