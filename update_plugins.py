@@ -36,6 +36,7 @@ vim-markdown https://github.com/plasticboy/vim-markdown master
 vim-notes https://github.com/will-ockmore/vim-notes master
 vim-repeat https://github.com/tpope/vim-repeat master
 vim-surround https://github.com/tpope/vim-surround master
+vim-tmux-navigator https://github.com/christoomey/vim-tmux-navigator master
 vim-yankstack https://github.com/maxbrunsfeld/vim-yankstack master
 """.strip()
 
