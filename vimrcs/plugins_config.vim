@@ -164,4 +164,6 @@ omap af <Plug>(coc-funcobj-a)
 " => vim-notes
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <leader>ne :Notes<CR>
+let g:vim_notes_date_format = "%Y-%m-%d"
+
 
