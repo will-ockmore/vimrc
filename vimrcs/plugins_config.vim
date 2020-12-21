@@ -107,6 +107,8 @@ let g:coc_global_extensions = [
 \ 'coc-rls'
 \]
 
+let g:coc_config_home = s:vim_runtime
+
 " if hidden is not set, TextEdit might fail.
 set hidden
 " " Some servers have issues with backup files, see #649
