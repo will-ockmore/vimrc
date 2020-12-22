@@ -10,6 +10,7 @@
     "json",
     "markdown"
   ],
+  "python.linting.flake8Enabled": true,
   "diagnostic.checkCurrentLine": true,
   "diagnostic-languageserver.filetypes": {
     "sh": "shellcheck",

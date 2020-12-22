@@ -97,12 +97,11 @@ nnoremap <leader>g :Rg
 nnoremap <leader>b :Buffers<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => coc.nvm
+" => coc.nvim
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let g:coc_global_extensions = [
-\ 'coc-emoji', 'coc-eslint', 
-\ 'coc-tsserver', 'coc-tslint', 'coc-tslint-plugin',
+\ 'coc-emoji', 'coc-eslint', 'coc-tsserver',
 \ 'coc-css', 'coc-json', 'coc-yaml',
 \ 'coc-rls', 'coc-diagnostic', 'coc-pyright',
 \ 'coc-snippets'
