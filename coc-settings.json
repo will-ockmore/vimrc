@@ -17,7 +17,6 @@
   },
   "diagnostic-languageserver.formatFiletypes": {
     "python": ["black", "isort"],
-    "terraform": "terraform",
     "javascript": "prettier",
     "javascriptreact": "prettier",
     "typescript": "prettier",
@@ -35,10 +34,6 @@
       "command": "isort",
       "args": ["-q", "-"]
     },
-    "terraform": {
-      "command": "terraform",
-      "args": ["fmt", "-"]
-    },
     "prettier": {
       "command": "prettier",
       "args": ["--stdin", "--stdin-filepath", "%filepath"],
@@ -55,6 +50,13 @@
         "prettier.config.js",
         "prettier.config.cjs"
       ]
+    }
+  },
+  "languageserver": {
+    "terraform": {
+      "command": "terraform-lsp",
+      "filetypes": ["tf"],
+      "initializationOptions": {}
     }
   }
 }
