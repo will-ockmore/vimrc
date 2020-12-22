@@ -389,10 +389,6 @@ Built-in configurations:~
 
 	Refresh diagnostics when in insert mode, default: `false`
 
-"diagnostic.refreshAfterSave":~
-
-	Refresh diagnostics after file save only, default: `false`
-
 "diagnostic.displayByAle":~
 
 	Use ALE for displaying diagnostics. This will disable coc.nvim for
@@ -477,7 +473,7 @@ Built-in configurations:~
 
 "signature.triggerSignatureWait":~
 
-	Delay for signature request trigger (milliseconds), default: `50`.
+	Timeout for signature request trigger (milliseconds), default: `500`.
 	Change to higher value for slow Language Servers.
 
 "signature.target":~
@@ -690,6 +686,10 @@ Built-in configurations:~
 	default: `true`
 
 							*coc-config-preferences*
+"coc.preferences.enableMessageDialog"~
+
+	Enable messages shown in notification dialog, default: `false`
+
 "coc.preferences.maxFileSize":~
 
 	Maximum file size in bytes that coc.nvim should handle, default: `'10MB'`
@@ -817,8 +817,7 @@ Built-in configurations:~
 
 "coc.preferences.promptInput":~
 
-	Use prompt buffer in float window for user input, works on latest
-	neovim >= 0.4.0 only.
+	Use prompt buffer in float window for user input.
 	Default: `true`
 
 "coc.preferences.enableMarkdown":~
@@ -1405,14 +1404,6 @@ g:coc_node_path						*g:coc_node_path*
 	Use this when coc has problems with your system node,
 
 	Note: you can use `~` as home directory.
-
-g:coc_force_bundle					*g:coc_force_bundle*
-
-	When lib folder with javascript code exists, coc.nvim would use
-	compiled javascript from lib folder, set this variable to `1` if you
-	want it use `build/index.js` created by webpack.
-
-	Default: 0
 
 g:coc_node_args						*g:coc_node_args*
 
@@ -3071,9 +3062,11 @@ with optional buttons.
 
 							*coc-dialog-confirm*
 
-A confirm dialog is used for user to confirm an action. Confirm dialog uses
-filter feature on vim8 and |getchar()| on neoivm. The difference is you can
-operate vim on vim8, but not on neovim.
+A confirm dialog is used for user to confirm an action, normally created by
+`window.showPrompt()` Confirm dialog uses filter feature on vim8 and
+|getchar()| on neoivm.
+
+The difference is you can operate vim on vim8, but not on neovim.
 
 Supported key-mappings:
 
@@ -3085,7 +3078,9 @@ y,Y           - accept the action, return 1 for callback.
 
 							*coc-dialog-input*
 
-A input dialog request user input with optional default value.
+A input dialog request user input with optional default value, normally
+created by `window.requestInput`, when `"coc.preferences.promptInput"` is
+false, vim's commandline input prompt is used instead.
 
 Supported key-mappings:
 
@@ -3102,7 +3097,8 @@ And other insert mode key-mappings that your neovim provided.
 
 A menu dialog is shown aside current cursor position for pick a single item
 from list of items, |coc-codeaction| uses menu dialog by default when it's
-supported.
+supported, extensions could use `window.showMenuPicker` to create menu
+dialog.
 
 Supported key-mappings:
 
@@ -3121,7 +3117,8 @@ k <s-tab> <up> <C-p> - move to previous item.
 							*coc-dialog-picker*
 
 A picker dialog is used for multiple selection. On neovim, it's possible to
-toggle selection by mouse click inside the bracket.
+toggle selection by mouse click inside the bracket. Extensions could use
+`window.showPickerDialog` to create picker dialog.
 
 Supported key-mappings:
 

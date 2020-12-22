@@ -22,7 +22,6 @@ coc.nvim https://github.com/neoclide/coc.nvim release
 comfortable-motion.vim https://github.com/yuttie/comfortable-motion.vim master
 goyo.vim https://github.com/junegunn/goyo.vim master
 gruvbox https://github.com/morhetz/gruvbox master
-lightline-ale https://github.com/maximbaz/lightline-ale master
 lightline.vim https://github.com/itchyny/lightline.vim master
 nerdtree https://github.com/scrooloose/nerdtree master
 typescript-vim https://github.com/leafgarland/typescript-vim master
