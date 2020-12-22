@@ -101,10 +101,11 @@ nnoremap <leader>b :Buffers<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let g:coc_global_extensions = [
-\ 'coc-emoji', 'coc-eslint', 'coc-prettier',
+\ 'coc-emoji', 'coc-eslint', 
 \ 'coc-tsserver', 'coc-tslint', 'coc-tslint-plugin',
-\ 'coc-css', 'coc-json', 'coc-python', 'coc-yaml',
-\ 'coc-rls'
+\ 'coc-css', 'coc-json', 'coc-yaml',
+\ 'coc-rls', 'coc-diagnostic', 'coc-pyright',
+\ 'coc-snippets'
 \]
 
 let g:coc_config_home = s:vim_runtime

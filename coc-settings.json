@@ -1,12 +1,60 @@
 {
-    "coc.preferences.formatOnSaveFiletypes": ["css", "javascript", "python", "json", "rust", "typescript", "typescriptreact"],
-    "diagnostic.checkCurrentLine": true,
-    "python.formatting.provider": "black",
-    "python.linting.pylintEnabled": false,
-    "python.linting.flake8Enabled": true,
-    "python.linting.enabled": true,
-    "python.jediPath": "/home/will/.pyenv/versions/3.8.2/lib/python3.8/site-packages",
-    "python.formatting.blackPath": "/home/will/.pyenv/versions/3.8.2/bin/black",
-    "prettier.tabWidth": 4,
-    "prettier.trailingComma": "es5"
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css",
+    "javascript",
+    "python",
+    "json",
+    "rust",
+    "typescript",
+    "typescriptreact",
+    "json",
+    "markdown"
+  ],
+  "diagnostic.checkCurrentLine": true,
+  "diagnostic-languageserver.filetypes": {
+    "sh": "shellcheck",
+    "dockerfile": "hadolint"
+  },
+  "diagnostic-languageserver.formatFiletypes": {
+    "python": ["black", "isort"],
+    "terraform": "terraform",
+    "javascript": "prettier",
+    "javascriptreact": "prettier",
+    "typescript": "prettier",
+    "typescriptreact": "prettier",
+    "json": "prettier",
+    "markdown": "prettier",
+    "graphql": "prettier"
+  },
+  "diagnostic-languageserver.formatters": {
+    "black": {
+      "command": "black",
+      "args": ["-q", "-"]
+    },
+    "isort": {
+      "command": "isort",
+      "args": ["-q", "-"]
+    },
+    "terraform": {
+      "command": "terraform",
+      "args": ["fmt", "-"]
+    },
+    "prettier": {
+      "command": "prettier",
+      "args": ["--stdin", "--stdin-filepath", "%filepath"],
+      "rootPatterns": [
+        ".prettierrc",
+        ".prettierrc.json",
+        ".prettierrc.toml",
+        ".prettierrc.json",
+        ".prettierrc.yml",
+        ".prettierrc.yaml",
+        ".prettierrc.json5",
+        ".prettierrc.js",
+        ".prettierrc.cjs",
+        "prettier.config.js",
+        "prettier.config.cjs"
+      ]
+    }
+  }
 }

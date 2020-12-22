@@ -9,6 +9,7 @@ Main changes:
 - Add [coc.nvim](https://github.com/neoclide/coc.nvim) for autocompletion and LSP support (VSCode-like IDE behaviour)
 
 ## Installation
+
 Full install:
 
 ```bash
