@@ -196,6 +196,12 @@ set smarttab
 set shiftwidth=4
 set tabstop=4
 
+" Javascript / Typescript: 1 tab == 2 spaces
+autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
+autocmd FileType javascriptreact setlocal shiftwidth=2 tabstop=2
+autocmd FileType typescript setlocal shiftwidth=2 tabstop=2
+autocmd FileType typescriptreact setlocal shiftwidth=2 tabstop=2
+
 " Linebreak on 500 characters
 set lbr
 set tw=500
