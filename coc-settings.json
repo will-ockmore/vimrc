@@ -22,6 +22,7 @@
     "javascriptreact": "prettier",
     "typescript": "prettier",
     "typescriptreact": "prettier",
+    "css": "prettier",
     "json": "prettier",
     "markdown": "prettier",
     "graphql": "prettier"
