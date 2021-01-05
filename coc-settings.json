@@ -11,13 +11,14 @@
     "markdown"
   ],
   "python.linting.flake8Enabled": true,
+  "python.formatting.provider": "black",
+  "python.formatting.blackPath": "/home/will/.pyenv/versions/3.8.6/bin/black",
   "diagnostic.checkCurrentLine": true,
   "diagnostic-languageserver.filetypes": {
     "sh": "shellcheck",
     "dockerfile": "hadolint"
   },
   "diagnostic-languageserver.formatFiletypes": {
-    "python": ["black", "isort"],
     "javascript": "prettier",
     "javascriptreact": "prettier",
     "typescript": "prettier",
@@ -28,14 +29,6 @@
     "graphql": "prettier"
   },
   "diagnostic-languageserver.formatters": {
-    "black": {
-      "command": "black",
-      "args": ["-q", "-"]
-    },
-    "isort": {
-      "command": "isort",
-      "args": ["-q", "-"]
-    },
     "prettier": {
       "command": "prettier",
       "args": ["--stdin", "--stdin-filepath", "%filepath"],
