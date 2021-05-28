@@ -456,7 +456,12 @@
       "type": "string",
       "description": "Default sorting behavior for suggested completion items.",
       "default": "length",
-      "enum": ["length", "alphabetical"]
+      "enum": ["length", "alphabetical", "none"]
+    },
+    "suggest.snippetsSupport": {
+      "type": "boolean",
+      "description": "Set to false to disable snippets support of completion.",
+      "default": true
     },
     "suggest.completionItemKindLabels": {
       "type": "object",
@@ -727,6 +732,25 @@
       "default": 3,
       "description": "Print num lines of trailing context after each match."
     },
+    "hover.target": {
+      "type": "string",
+      "description": "Target to show hover information, default is floating window when possible.",
+      "enum": ["preview", "echo", "float"]
+    },
+    "hover.floatMaxWidth": {
+      "type": "number",
+      "default": 80,
+      "description": "Maximum width of hover float window, not bigger than 80."
+    },
+    "hover.floatMaxHeight": {
+      "type": "number",
+      "description": "Maximum width of hover float window, not bigger than 80."
+    },
+    "hover.autoHide": {
+      "type": "boolean",
+      "default": true,
+      "description": "Automatically hide hover float window on CursorMove or InsertEnter."
+    },
     "dialog.maxHeight": {
       "type": "number",
       "default": 20,
@@ -799,6 +823,19 @@
       "items": {
         "type": "string"
       }
+    },
+    "workspace.bottomUpFiletypes": {
+      "type": "array",
+      "default": [],
+      "description": "Filetypes that should have workspace folder should resolved from base directory of file.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "workspace.workspaceFolderCheckCwd": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether the cwd directory should be checked first when resolving workspace folder."
     },
     "list.indicator": {
       "type": "string",
@@ -909,7 +946,7 @@
     "list.source.symbols.excludes": {
       "type": "array",
       "default": [],
-      "description": "Patterns of mimimatch for filepath to execlude from symbols list.",
+      "description": "Patterns of minimatch for filepath to execlude from symbols list.",
       "items": {
         "type": "string"
       }
@@ -974,11 +1011,6 @@
       "default": "SNIP",
       "description": "Text shown in statusline to indicate snippet session is activated."
     },
-    "coc.preferences.hoverTarget": {
-      "type": "string",
-      "description": "Target to show hover information, default is floating window when possible.",
-      "enum": ["preview", "echo", "float"]
-    },
     "coc.preferences.colorSupport": {
       "type": "boolean",
       "description": "Enable color highlight if language server support it.",
@@ -1007,11 +1039,6 @@
         "type": "string"
       }
     },
-    "coc.preferences.formatOnInsertLeave": {
-      "type": "boolean",
-      "description": "Trigger format on type when insert leave by send \n to the server.",
-      "default": false
-    },
     "coc.preferences.enableFloatHighlight": {
       "type": "boolean",
       "description": "Enable highlight for floating window.",
@@ -1033,7 +1060,7 @@
     "coc.preferences.jumpCommand": {
       "type": "string",
       "description": "Command used for location jump, like goto definition, goto references etc.",
-      "enum": ["edit", "split", "vsplit", "tabe", "drop", "tab drop"],
+      "enum": ["edit", "split", "vsplit", "tabe", "drop", "tab drop", "pedit"],
       "default": "edit"
     },
     "coc.preferences.messageLevel": {
@@ -1067,11 +1094,6 @@
       "maximum": 5000,
       "description": "Highlight timeout for buffer in floating window."
     },
-    "coc.preferences.snippets.enable": {
-      "type": "boolean",
-      "description": "Set to false to disable snippets support.",
-      "default": true
-    },
     "coc.preferences.floatActions": {
       "type": "boolean",
       "description": "Set to false to disable float/popup support for actions menu, won't work on vim without float or popup window support.",
@@ -1091,6 +1113,13 @@
       "type": "boolean",
       "description": "Not open split window with update status when performing auto update.",
       "default": true
+    },
+    "coc.preferences.willSaveHandlerTimeout": {
+      "type": "integer",
+      "default": 500,
+      "minimum": 200,
+      "maximum": 5000,
+      "description": "Will save handler timeout"
     },
     "coc.source.around.enable": {
       "type": "boolean",
@@ -1214,4 +1243,3 @@
     }
   }
 }
-

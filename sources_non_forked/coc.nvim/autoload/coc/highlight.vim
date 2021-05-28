@@ -1,3 +1,4 @@
+scriptencoding utf-8
 let s:is_vim = !has('nvim')
 let s:clear_match_by_window = has('nvim-0.5.0') || has('patch-8.1.1084')
 let s:namespace_map = {}
@@ -17,6 +18,7 @@ function! coc#highlight#ranges(bufnr, key, hlGroup, ranges) abort
   if !bufloaded(bufnr) || !exists('*getbufline')
     return
   endif
+  let synmaxcol = min([getbufvar(a:bufnr, '&synmaxcol', 1000), 1000])
   let srcId = s:create_namespace(a:key)
   for range in a:ranges
     let start = range['start']
@@ -25,6 +27,9 @@ function! coc#highlight#ranges(bufnr, key, hlGroup, ranges) abort
       let arr = getbufline(bufnr, lnum)
       let line = empty(arr) ? '' : arr[0]
       if empty(line)
+        continue
+      endif
+      if start['character'] > synmaxcol || end['character'] > synmaxcol
         continue
       endif
       " TODO don't know how to count UTF16 code point, should work most cases.
@@ -100,7 +105,8 @@ endfunction
 " }
 function! coc#highlight#highlight_lines(winid, blocks) abort
   let currwin = win_getid()
-  if has('nvim') && currwin != a:winid
+  let switch = has('nvim') && currwin != a:winid
+  if switch
     noa call nvim_set_current_win(a:winid)
   endif
   let defined = []
@@ -113,16 +119,24 @@ function! coc#highlight#highlight_lines(winid, blocks) abort
     if !empty(hlGroup)
       call s:execute(a:winid, 'syntax region '.hlGroup.' start=/\%'.start.'l/ end=/\%'.end.'l/')
     else
-      let filetype = matchstr(filetype, '\v[^.]*')
+      let filetype = matchstr(filetype, '\v^\w+')
+      if empty(filetype) || filetype == 'txt' || index(get(g:, 'coc_markdown_disabled_languages', []), filetype) != -1
+        continue
+      endif
       if index(defined, filetype) == -1
         call s:execute(a:winid, 'syntax include @'.toupper(filetype).' syntax/'.filetype.'.vim')
+        if has('nvim')
+          unlet! b:current_syntax
+        elseif exists('*win_execute')
+          call win_execute(a:winid, 'unlet! b:current_syntax')
+        endif
         call add(defined, filetype)
       endif
       call s:execute(a:winid, 'syntax region CodeBlock'.region_id.' start=/\%'.start.'l/ end=/\%'.end.'l/ contains=@'.toupper(filetype))
       let region_id = region_id + 1
     endif
   endfor
-  if has('nvim')
+  if switch
     noa call nvim_set_current_win(currwin)
   endif
 endfunction
@@ -166,7 +180,7 @@ function! coc#highlight#match_ranges(winid, bufnr, ranges, hlGroup, priority) ab
   endif
   let ids = []
   for range in a:ranges
-    let list = []
+    let pos = []
     let start = range['start']
     let end = range['end']
     for lnum in range(start['line'] + 1, end['line'] + 1)
@@ -180,12 +194,25 @@ function! coc#highlight#match_ranges(winid, bufnr, ranges, hlGroup, priority) ab
       if colStart == colEnd
         continue
       endif
-      call add(list, [lnum, colStart, colEnd - colStart])
+      call add(pos, [lnum, colStart, colEnd - colStart])
     endfor
-    if !empty(list)
+    if !empty(pos)
       let opts = s:clear_match_by_window ? {'window': a:winid} : {}
-      let id = matchaddpos(a:hlGroup, list, a:priority, -1, opts)
-      call add(ids, id)
+      let i = 1
+      let l = []
+      for p in pos
+        call add(l, p)
+        if i % 8 == 0
+          let id = matchaddpos(a:hlGroup, l, a:priority, -1, opts)
+          call add(ids, id)
+          let l = []
+        endif
+        let i += 1
+      endfor
+      if !empty(l)
+        let id = matchaddpos(a:hlGroup, l, a:priority, -1, opts)
+        call add(ids, id)
+      endif
     endif
   endfor
   if !s:clear_match_by_window
@@ -301,10 +328,12 @@ function! s:create_namespace(key) abort
   if type(a:key) == 0
     return a:key
   endif
-  if has('nvim')
-    return nvim_create_namespace('coc-'.a:key)
+  if has_key(s:namespace_map, a:key)
+    return s:namespace_map[a:key]
   endif
-  if !has_key(s:namespace_map, a:key)
+  if has('nvim')
+    let s:namespace_map[a:key] = nvim_create_namespace('coc-'.a:key)
+  else
     let s:namespace_map[a:key] = s:ns_id
     let s:ns_id = s:ns_id + 1
   endif

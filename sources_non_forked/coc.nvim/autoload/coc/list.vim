@@ -1,3 +1,4 @@
+scriptencoding utf-8
 let s:is_vim = !has('nvim')
 let s:prefix = '[List Preview]'
 " filetype detect could be slow.
@@ -18,7 +19,7 @@ function! coc#list#setlines(bufnr, lines, append)
     silent call appendbufline(a:bufnr, '$', a:lines)
   else
     if exists('*deletebufline')
-      call deletebufline(a:bufnr, len(a:lines) + 1, '$')
+      silent call deletebufline(a:bufnr, len(a:lines) + 1, '$')
     else
       let n = len(a:lines) + 1
       let saved_reg = @"
@@ -218,7 +219,7 @@ endfunction
 " config.maxHeight - (optional) max height of window, valid for 'below' & 'top' position.
 function! coc#list#preview(lines, config) abort
   if s:is_vim && !exists('*win_execute')
-    echoerr 'win_execute function required for preview, please upgrade your vim.'
+    throw 'win_execute function required for preview, please upgrade your vim.'
     return
   endif
   let name = fnamemodify(get(a:config, 'name', ''), ':.')
@@ -259,7 +260,7 @@ function! coc#list#preview(lines, config) abort
     let curr = win_getid()
     if change
       if original && win_id2win(original)
-        call win_gotoid(original)
+        noa call win_gotoid(original)
       else
         noa wincmd t
       endif

@@ -1,3 +1,4 @@
+scriptencoding utf-8
 let s:root = expand('<sfile>:h:h:h')
 
 function! s:checkEnvironment() abort
@@ -45,7 +46,7 @@ function! s:checkCommand()
   if filereadable(file)
     call health#report_ok('Javascript bundle build/index.js found')
   else
-    call health#report_error('Javascript entry not found, please compile coc.nvim by webpack.')
+    call health#report_error('Javascript entry not found, please compile coc.nvim by esbuild.')
   endif
 endfunction
 
