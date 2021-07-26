@@ -4,9 +4,9 @@
   </a>
   <p align="center">Make your Vim/Neovim as smart as VSCode.</p>
   <p align="center">
-    <a href="/LICENSE.md"><img alt="Software License" src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>
+    <a href="LICENSE.md"><img alt="Software License" src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>
     <a href="https://github.com/neoclide/coc.nvim/actions"><img alt="Actions" src="https://img.shields.io/github/workflow/status/neoclide/coc.nvim/coc.nvim%20CI?style=flat-square"></a>
-    <a href="/doc/coc.txt"><img alt="Doc" src="https://img.shields.io/badge/doc-%3Ah%20coc.txt-brightgreen.svg?style=flat-square"></a>
+    <a href="doc/coc.txt"><img alt="Doc" src="https://img.shields.io/badge/doc-%3Ah%20coc.txt-brightgreen.svg?style=flat-square"></a>
     <a href="https://gitter.im/neoclide/coc.nvim"><img alt="Gitter" src="https://img.shields.io/gitter/room/neoclide/coc.nvim.svg?style=flat-square"></a>
   </p>
 </p>
@@ -26,11 +26,12 @@ _True snippet and additional text editing support_
 
 ## Quick Start
 
-Install [nodejs](https://nodejs.org/en/download/) >= 10.12:
+Install [nodejs](https://nodejs.org/en/download/) >= 12.12:
 
 ```sh
 curl -sL install-node.now.sh/lts | bash
 ```
+If you get an error about no permissions, change it to `sudo bash` and run it.
 
 For [vim-plug](https://github.com/junegunn/vim-plug) users:
 
@@ -312,13 +313,17 @@ Try these steps when you have problem with coc.nvim.
 <a href="https://opencollective.com/cocnvim/backer/22/website?requireActive=false" target="_blank"><img src="https://opencollective.com/cocnvim/backer/22/avatar.svg?requireActive=false"></a>
 <a href="https://opencollective.com/cocnvim/backer/23/website?requireActive=false" target="_blank"><img src="https://opencollective.com/cocnvim/backer/23/avatar.svg?requireActive=false"></a>
 <a href="https://opencollective.com/cocnvim/backer/24/website?requireActive=false" target="_blank"><img src="https://opencollective.com/cocnvim/backer/24/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/cocnvim/backer/25/website?requireActive=false" target="_blank"><img src="https://opencollective.com/cocnvim/backer/25/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/cocnvim/backer/26/website?requireActive=false" target="_blank"><img src="https://opencollective.com/cocnvim/backer/26/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/cocnvim/backer/27/website?requireActive=false" target="_blank"><img src="https://opencollective.com/cocnvim/backer/27/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/cocnvim/backer/28/website?requireActive=false" target="_blank"><img src="https://opencollective.com/cocnvim/backer/28/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/cocnvim/backer/29/website?requireActive=false" target="_blank"><img src="https://opencollective.com/cocnvim/backer/29/avatar.svg?requireActive=false"></a>
 
 <a href="https://opencollective.com/cocnvim#backer" target="_blank"><img src="https://images.opencollective.com/static/images/become_backer.svg"></a>
 
-## Supporters
+## Support the project
 
-<a href="https://www.zhipin.com/job_detail/b872ed13edf92a701nZz2967ElFW.html" target="_blank"><img src="https://alfs.chigua.cn/dianyou/data/platform/default/20210322/react.jpg"></a>
-<a href="https://www.linkedin.com/jobs/view/2509100714/" target="_blank"><img src="https://alfs.chigua.cn/dianyou/data/platform/default/20210514/ra.png"></a>
+Buy cloud service from [www.vultr.com](https://www.vultr.com/?ref=8890170-6G)
 
 ## License
 

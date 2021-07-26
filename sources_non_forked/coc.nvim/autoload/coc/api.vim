@@ -16,6 +16,13 @@ function! s:buf_line_count(bufnr) abort
   if bufnr('%') == a:bufnr
     return line('$')
   endif
+  if exists('*getbufinfo')
+    let info = getbufinfo(a:bufnr)
+    if empty(info)
+      return 0
+    endif
+    return info[0]['linecount']
+  endif
   if exists('*getbufline')
     let lines = getbufline(a:bufnr, 1, '$')
     return len(lines)
@@ -73,14 +80,20 @@ function! s:funcs.list_wins() abort
   return map(getwininfo(), 'v:val["winid"]')
 endfunction
 
+function s:inspect_type(v) abort
+  let types = ['Number', 'String', 'Funcref', 'List', 'Dictionary', 'Float', 'Boolean', 'Null']
+  return get(types, type(a:v), 'Unknown')
+endfunction
+
 function! s:funcs.call_atomic(calls)
   let res = []
-  for [key, arglist] in a:calls
+  for i in range(len(a:calls))
+    let [key, arglist] = a:calls[i]
     let name = key[5:]
     try
       call add(res, call(s:funcs[name], arglist))
     catch /.*/
-      return [res, v:exception]
+      return [res, [i, "VimException(".s:inspect_type(v:exception).")", v:exception]]
     endtry
   endfor
   return [res, v:null]
@@ -275,7 +288,6 @@ function! s:funcs.buf_add_highlight(bufnr, srcId, hlGroup, line, colStart, colEn
   catch /^Vim\%((\a\+)\)\=:E967/
     " ignore 967
   endtry
-  let g:i = srcId
   if a:srcId == 0
     " return generated srcId
     return srcId
