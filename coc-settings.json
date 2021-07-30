@@ -13,7 +13,7 @@
   ],
   "python.linting.flake8Enabled": true,
   "python.formatting.provider": "black",
-  "python.formatting.blackPath": "~/.pyenv/versions/3.9.6/bin/black",
+  "python.formatting.blackPath": "~/.local/bin/black",
   "diagnostic.checkCurrentLine": true,
   "diagnostic-languageserver.filetypes": {
     "sh": "shellcheck",
