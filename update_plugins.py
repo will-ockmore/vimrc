@@ -37,6 +37,7 @@ vim-repeat https://github.com/tpope/vim-repeat master
 vim-surround https://github.com/tpope/vim-surround master
 vim-tmux-navigator https://github.com/christoomey/vim-tmux-navigator master
 vim-yankstack https://github.com/maxbrunsfeld/vim-yankstack master
+fennel.vim https://github.com/bakpakin/fennel.vim master
 """.strip()
 
 
