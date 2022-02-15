@@ -1,20 +1,15 @@
 # My vimrc
 
+Assumes use of [neovim](https://neovim.io/)
+
 ## Installation
-
-Full install:
-
-```bash
-git clone --depth=1 https://github.com/will-ockmore/vimrc.git ~/.vim_runtime
-sh ~/.vim_runtime/install_awesome_vimrc.sh
-```
-
-Basic install
 
 ```bash
 wget https://raw.githubusercontent.com/will-ockmore/vimrc/master/init.vim -o ~/.config/nvim/init.vim
 wget https://raw.githubusercontent.com/will-ockmore/vimrc/master/coc-settings.json -o ~/.config/nvim/coc-settings.json
 ```
+
+On startup, plugins will be installed and treesitter modules will be compiled.
 
 ## Mac
 
@@ -26,4 +21,4 @@ defaults write com.googlecode.iterm2 AlternateMouseScroll -bool true
 
 ## Plugins
 
-uses [vim-plug](https://github.com/junegunn/vim-plug)
+Uses [vim-plug](https://github.com/junegunn/vim-plug). See the `Plugins` section for included plugins.

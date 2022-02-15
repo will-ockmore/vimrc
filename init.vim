@@ -16,13 +16,13 @@
 "    -> Spell checking
 "    -> Misc
 "    -> Helper functions
-"    -> Colorscheme
 "    -> Tmux
 "    -> Parenthesis/Bracket
 "    -> Persistent undo
 "    -> Command mode
 "
 "    -> Plugins
+"    -> Colorscheme
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -334,15 +334,6 @@ function! VisualSelection(direction, extra_filter) range
 endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Colorscheme
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set termguicolors
-" Avoid the background bleed in tmux
-" See https://sunaku.github.io/vim-256color-bce.html
-set t_ut=
-colorscheme nightfox
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Tmux
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Repeat last command in last window
@@ -408,12 +399,16 @@ imap ½ $
 " => Plugins
 """"""""""""""""""""""""""""""
 
-" Auto load vim-plug https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
-let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-if empty(glob(data_dir . '/autoload/plug.vim'))
-  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+" Install vim-plug if not found
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
+
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \| PlugInstall --sync | source $MYVIMRC
+\| endif
 
 call plug#begin()
 
@@ -525,8 +520,6 @@ let g:coc_global_extensions = [
 \ 'coc-snippets'
 \]
 
-let g:coc_config_home = s:vim_runtime
-
 " if hidden is not set, TextEdit might fail.
 set hidden
 " " Some servers have issues with backup files, see #649
@@ -587,3 +580,11 @@ nnoremap <leader>ne :Notes<CR>
 let g:vim_notes_date_format = "%Y-%m-%d"
 
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Colorscheme
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set termguicolors
+" Avoid the background bleed in tmux
+" See https://sunaku.github.io/vim-256color-bce.html
+set t_ut=
+colorscheme nightfox
