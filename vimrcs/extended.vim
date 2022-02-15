@@ -34,7 +34,7 @@ set termguicolors
 " Avoid the background bleed in tmux
 " See https://sunaku.github.io/vim-256color-bce.html
 set t_ut=
-colorscheme gruvbox
+colorscheme nightfox
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
