@@ -27,5 +27,5 @@ Uses [vim-plug](https://github.com/junegunn/vim-plug). See the `Plugins` section
 
 Including tmux configuration:
 
+![Screenshot from 2022-02-15 15-07-52](https://user-images.githubusercontent.com/13736156/154090120-423a1f68-e419-4f5f-854d-85daa00c7c86.png)
 
-![Screenshot from 2022-02-15 14-50-54](https://user-images.githubusercontent.com/13736156/154086503-dd134ed9-de43-4237-a870-4486bbdf979f.png)
