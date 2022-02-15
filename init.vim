@@ -91,6 +91,7 @@ set ruler
 :augroup END
 
 " Height of the command bar
+" Better display for messages for eg. coc.nvim
 set cmdheight=2
 
 " A buffer becomes hidden when it is abandoned
@@ -133,10 +134,6 @@ set tm=500
 if has("gui_macvim")
     autocmd GUIEnter * set vb t_vb=
 endif
-
-
-" Add a bit extra margin to the left
-set foldcolumn=1
 
 " Disable folding
 set nofoldenable
@@ -415,7 +412,6 @@ call plug#begin()
 Plug 'EdenEast/nightfox.nvim'
 Plug 'bakpakin/fennel.vim'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'haya14busa/incsearch.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'maxbrunsfeld/vim-yankstack'
@@ -511,8 +507,6 @@ set hidden
 " " Some servers have issues with backup files, see #649
 set nobackup
 set nowritebackup
-"" Better display for messages
-set cmdheight=2
 " You will have bad experience for diagnostic messages when it's default 4000.
 set updatetime=300
 "" don't give |ins-completion-menu| messages.
