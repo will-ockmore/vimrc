@@ -412,19 +412,21 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 
 call plug#begin()
 
-Plug 'jiangmiao/auto-pairs'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'bakpakin/fennel.vim'
-Plug 'itchyny/lightline.vim'
 Plug 'EdenEast/nightfox.nvim'
+Plug 'bakpakin/fennel.vim'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'haya14busa/incsearch.vim'
+Plug 'jiangmiao/auto-pairs'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'maxbrunsfeld/vim-yankstack'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'nvim-lualine/lualine.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'tpope/vim-commentary'
-Plug 'michaeljsmith/vim-indent-object'
-Plug 'will-ockmore/vim-notes'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'maxbrunsfeld/vim-yankstack'
+Plug 'will-ockmore/vim-notes'
 
 call plug#end()
 
@@ -463,32 +465,16 @@ nmap <c-n> <Plug>yankstack_substitute_newer_paste
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => lightline
+" => Lualine
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:lightline = {
-      \ 'colorscheme': 'nightfox',
-      \ }
 
-" let g:lightline = {
-"       \ 'colorscheme': 'wombat',
-"       \ 'active': {
-"       \   'left': [ ['mode', 'paste'],
-"       \             ['fugitive', 'readonly', 'filename', 'modified'] ],
-"       \   'right': [ [ 'lineinfo' ], ['percent'] ]
-"       \ },
-"       \ 'component': {
-"       \   'readonly': '%{&filetype=="help"?"":&readonly?"🔒":""}',
-"       \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
-"       \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
-"       \ },
-"       \ 'component_visible_condition': {
-"       \   'readonly': '(&filetype!="help"&& &readonly)',
-"       \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
-"       \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
-"       \ },
-"       \ 'separator': { 'left': ' ', 'right': ' ' },
-"       \ 'subseparator': { 'left': ' ', 'right': ' ' }
-"       \ }
+lua << EOF
+require('lualine').setup {
+ options = {
+     theme = "nightfox"
+ }
+}
+EOF
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => FZF
