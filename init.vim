@@ -1,13 +1,6 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Maintainer: 
-"       Amir Salihefendic — @amix3k
-"
-" Awesome_version:
-"       Get this config, nice color schemes and lots of plugins!
-"
-"       Install the awesome version from:
-"
-"           https://github.com/amix/vimrc
+"       Will Ockmore
 "
 " Sections:
 "    -> General
@@ -23,6 +16,13 @@
 "    -> Spell checking
 "    -> Misc
 "    -> Helper functions
+"    -> Colorscheme
+"    -> Tmux
+"    -> Parenthesis/Bracket
+"    -> Persistent undo
+"    -> Command mode
+"
+"    -> Plugins
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -332,3 +332,258 @@ function! VisualSelection(direction, extra_filter) range
     let @/ = l:pattern
     let @" = l:saved_reg
 endfunction
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Colorscheme
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set termguicolors
+" Avoid the background bleed in tmux
+" See https://sunaku.github.io/vim-256color-bce.html
+set t_ut=
+colorscheme nightfox
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Tmux
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Repeat last command in last window
+" Useful for running tests after changes without leaving vim
+nmap \r :!tmux send-keys -t {last} C-p C-j <CR><CR>
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Parenthesis/bracket
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+vnoremap $1 <esc>`>a)<esc>`<i(<esc>
+vnoremap $2 <esc>`>a]<esc>`<i[<esc>
+vnoremap $3 <esc>`>a}<esc>`<i{<esc>
+vnoremap $$ <esc>`>a"<esc>`<i"<esc>
+vnoremap $q <esc>`>a'<esc>`<i'<esc>
+vnoremap $e <esc>`>a"<esc>`<i"<esc>
+
+" Map auto complete of (, ", ', [
+inoremap $1 ()<esc>i
+inoremap $2 []<esc>i
+inoremap $3 {}<esc>i
+inoremap $4 {<esc>o}<esc>O
+inoremap $q ''<esc>i
+inoremap $e ""<esc>i
+"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Turn persistent undo on 
+"    means that you can undo even when you close a buffer/VIM
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+try
+    set undofile
+catch
+endtry
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Command mode related
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Smart mappings on the command line
+cno $h e ~/
+cno $d e ~/Desktop/
+cno $j e ./
+cno $c e <C-\>eCurrentFileDir("e")<cr>
+
+" $q is super useful when browsing on the command line
+" it deletes everything until the last slash 
+cno $q <C-\>eDeleteTillSlash()<cr>
+
+" Bash like keys for the command line
+cnoremap <C-A>		<Home>
+cnoremap <C-E>		<End>
+cnoremap <C-K>		<C-U>
+
+cnoremap <C-P> <Up>
+cnoremap <C-N> <Down>
+
+" Map ½ to something useful
+map ½ $
+cmap ½ $
+imap ½ $
+
+""""""""""""""""""""""""""""""
+" => Plugins
+""""""""""""""""""""""""""""""
+
+" Auto load vim-plug https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin()
+
+Plug 'jiangmiao/auto-pairs'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'bakpakin/fennel.vim'
+Plug 'itchyny/lightline.vim'
+Plug 'EdenEast/nightfox.nvim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'tpope/vim-commentary'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'will-ockmore/vim-notes'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'maxbrunsfeld/vim-yankstack'
+
+call plug#end()
+
+""""""""""""""""""""""""""""""
+" => nvim-treesitter
+""""""""""""""""""""""""""""""
+
+lua << EOF
+require'nvim-treesitter.configs'.setup {
+  -- One of "all", "maintained" (parsers with maintainers), or a list of languages
+  ensure_installed = "maintained",
+
+  -- Install languages synchronously (only applied to `ensure_installed`)
+  sync_install = false,
+
+  highlight = {
+    -- `false` will disable the whole extension
+    enable = true,
+
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+}
+EOF
+
+""""""""""""""""""""""""""""""
+" => YankStack
+""""""""""""""""""""""""""""""
+let g:yankstack_yank_keys = ['y', 'd']
+
+nmap <c-p> <Plug>yankstack_substitute_older_paste
+nmap <c-n> <Plug>yankstack_substitute_newer_paste
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => lightline
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:lightline = {
+      \ 'colorscheme': 'nightfox',
+      \ }
+
+" let g:lightline = {
+"       \ 'colorscheme': 'wombat',
+"       \ 'active': {
+"       \   'left': [ ['mode', 'paste'],
+"       \             ['fugitive', 'readonly', 'filename', 'modified'] ],
+"       \   'right': [ [ 'lineinfo' ], ['percent'] ]
+"       \ },
+"       \ 'component': {
+"       \   'readonly': '%{&filetype=="help"?"":&readonly?"🔒":""}',
+"       \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
+"       \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
+"       \ },
+"       \ 'component_visible_condition': {
+"       \   'readonly': '(&filetype!="help"&& &readonly)',
+"       \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
+"       \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
+"       \ },
+"       \ 'separator': { 'left': ' ', 'right': ' ' },
+"       \ 'subseparator': { 'left': ' ', 'right': ' ' }
+"       \ }
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => FZF
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set rtp+=~/.fzf
+set rtp+=/usr/local/opt/fzf
+
+" Search filenames
+command! -bang -nargs=? -complete=dir FzfFilesWithPreview
+    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+
+nnoremap <C-f> :FZF<CR>
+nnoremap <leader>f :FzfFilesWithPreview!<CR>
+
+" Search file contents (Ctrl-shift-f behaviour)
+nnoremap <leader>g :Rg 
+
+" Search buffers
+nnoremap <leader>b :Buffers<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => coc.nvim
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:coc_global_extensions = [
+\ 'coc-emoji', 'coc-eslint', 'coc-tsserver',
+\ 'coc-css', 'coc-json', 'coc-yaml',
+\ 'coc-rls', 'coc-diagnostic', 'coc-pyright',
+\ 'coc-snippets'
+\]
+
+let g:coc_config_home = s:vim_runtime
+
+" if hidden is not set, TextEdit might fail.
+set hidden
+" " Some servers have issues with backup files, see #649
+set nobackup
+set nowritebackup
+"" Better display for messages
+set cmdheight=2
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
+"" don't give |ins-completion-menu| messages.
+set shortmess+=c
+" always show signcolumns
+set signcolumn=yes
+
+"" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+ inoremap <silent><expr> <TAB>
+   \ pumvisible() ? "\<C-n>" :
+   \ <SID>check_back_space() ? "\<TAB>" :
+   \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+"" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+      execute 'h '.expand('<cword>')
+  else
+      call CocAction('doHover')
+  endif
+endfunction
+
+"" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Function text objects (if enabled by server)
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => vim-notes
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap <leader>ne :Notes<CR>
+let g:vim_notes_date_format = "%Y-%m-%d"
+
+
