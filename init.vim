@@ -446,7 +446,7 @@ Plug 'nvim-lualine/lualine.nvim', Cond(!exists('g:vscode'))
 Plug 'nvim-treesitter/nvim-treesitter', !exists('g:vscode') ?  {'do': ':TSUpdate'} : { 'on': [] }
 Plug 'will-ockmore/vim-notes', Cond(!exists('g:vscode'))
 
-" Installed for vscode-neovim
+" Installed for both vscode-neovim and terminal vim
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
