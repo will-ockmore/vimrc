@@ -443,13 +443,14 @@ Plug 'maxbrunsfeld/vim-yankstack', Cond(!exists('g:vscode'))
 Plug 'michaeljsmith/vim-indent-object', Cond(!exists('g:vscode'))
 Plug 'neoclide/coc.nvim', !exists('g:vscode') ? {'branch': 'release'} : { 'on': [] }
 Plug 'nvim-lualine/lualine.nvim', Cond(!exists('g:vscode'))
-Plug 'nvim-treesitter/nvim-treesitter', !exists('g:vscode') ?  {'do': ':TSUpdate'} : { 'on': [] }
 Plug 'will-ockmore/vim-notes', Cond(!exists('g:vscode'))
 
 " Installed for both vscode-neovim and terminal vim
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
+Plug 'nvim-treesitter/nvim-treesitter',  {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
 call plug#end()
 
@@ -457,7 +458,6 @@ call plug#end()
 " => nvim-treesitter
 """"""""""""""""""""""""""""""
 
-if !exists('g:vscode')
 lua << EOF
 require'nvim-treesitter.configs'.setup {
   -- One of "all", "maintained" (parsers with maintainers), or a list of languages
@@ -476,9 +476,47 @@ require'nvim-treesitter.configs'.setup {
     -- Instead of true it can also be a list of languages
     additional_vim_regex_highlighting = false,
   },
+
+  textobjects = {
+    select = {
+      enable = true,
+
+      -- Automatically jump forward to textobj, similar to targets.vim
+      lookahead = true,
+
+      keymaps = {
+        -- You can use the capture groups defined in textobjects.scm
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@class.outer",
+        ["ic"] = "@class.inner",
+        ["aP"] = "@parameter.outer",
+        ["iP"] = "@parameter.inner",
+      },
+    },
+    move = {
+      enable = true,
+      set_jumps = true, -- whether to set jumps in the jumplist
+      goto_next_start = {
+        ["]m"] = "@function.outer",
+        ["]]"] = "@class.outer",
+      },
+      goto_next_end = {
+        ["]M"] = "@function.outer",
+        ["]["] = "@class.outer",
+      },
+      goto_previous_start = {
+        ["[m"] = "@function.outer",
+        ["[["] = "@class.outer",
+      },
+      goto_previous_end = {
+        ["[M"] = "@function.outer",
+        ["[]"] = "@class.outer",
+      },
+    },
+  },
 }
 EOF
-endif
 
 """"""""""""""""""""""""""""""
 " => YankStack
