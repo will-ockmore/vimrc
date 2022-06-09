@@ -94,27 +94,11 @@ if !exists('g:vscode')
     " A buffer becomes hidden when it is abandoned
     set hid
 
-    " Configure backspace so it acts as it should act
-    set backspace=eol,start,indent
-    set whichwrap+=<,>,h,l
-
-    " Ignore case when searching
-    set ignorecase
-
-    " When searching try to be smart about cases
-    set smartcase
-
     " Highlight search results
     set hlsearch
 
-    " Makes search act like search in modern browsers
-    set incsearch
-
     " Don't redraw while executing macros (good performance config)
     set lazyredraw
-
-    " For regular expressions turn magic on
-    set magic
 
     " Show matching brackets when text indicator is over them
     set showmatch
@@ -135,6 +119,22 @@ if !exists('g:vscode')
     " Disable folding
     set nofoldenable
 endif
+
+" For regular expressions turn magic on
+set magic
+
+" Makes search act like search in modern browsers
+set incsearch
+
+" Ignore case when searching
+set ignorecase
+
+" When searching try to be smart about cases
+set smartcase
+
+" Configure backspace so it acts as it should act
+set backspace=eol,start,indent
+set whichwrap+=<,>,h,l
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
@@ -213,12 +213,10 @@ endif
 """"""""""""""""""""""""""""""
 " => Visual mode related
 """"""""""""""""""""""""""""""
-if !exists('g:vscode')
-    " Visual mode pressing * or # searches for the current selection
-    " Super useful! From an idea by Michael Naumann
-    vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
-    vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
-endif
+" Visual mode pressing * or # searches for the current selection
+" Super useful! From an idea by Michael Naumann
+vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
+vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -324,23 +322,6 @@ if !exists('g:vscode')
         call feedkeys(":" . a:str)
     endfunction
 
-    function! VisualSelection(direction, extra_filter) range
-        let l:saved_reg = @"
-        execute "normal! vgvy"
-
-        let l:pattern = escape(@", "\\/.*'$^~[]")
-        let l:pattern = substitute(l:pattern, "\n$", "", "")
-
-        if a:direction == 'gv'
-            call CmdLine("Ack '" . l:pattern . "' " )
-        elseif a:direction == 'replace'
-            call CmdLine("%s" . '/'. l:pattern . '/')
-        endif
-
-        let @/ = l:pattern
-        let @" = l:saved_reg
-    endfunction
-
     """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     " => Tmux
     """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -349,6 +330,22 @@ if !exists('g:vscode')
     nmap \r :!tmux send-keys -t {last} C-p C-j <CR><CR>
 endif
 
+function! VisualSelection(direction, extra_filter) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+
+    let l:pattern = escape(@", "\\/.*'$^~[]")
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'gv'
+        call CmdLine("Ack '" . l:pattern . "' " )
+    elseif a:direction == 'replace'
+        call CmdLine("%s" . '/'. l:pattern . '/')
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Parenthesis/bracket
