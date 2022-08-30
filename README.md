@@ -5,8 +5,8 @@ Assumes use of [neovim](https://neovim.io/)
 ## Installation
 
 ```bash
-wget https://raw.githubusercontent.com/will-ockmore/vimrc/master/init.vim -o ~/.config/nvim/init.vim
-wget https://raw.githubusercontent.com/will-ockmore/vimrc/master/coc-settings.json -o ~/.config/nvim/coc-settings.json
+curl https://raw.githubusercontent.com/will-ockmore/vimrc/master/init.vim -o ~/.config/nvim/init.vim
+curl https://raw.githubusercontent.com/will-ockmore/vimrc/master/coc-settings.json -o ~/.config/nvim/coc-settings.json
 ```
 
 On startup, plugins will be installed and treesitter modules will be compiled.
