@@ -118,10 +118,14 @@ if !exists('g:vscode')
 
     " Disable folding
     set nofoldenable
-endif
 
-" For regular expressions turn magic on
-set magic
+    " Configure backspace so it acts as it should act
+    set backspace=eol,start,indent
+    set whichwrap+=<,>,h,l
+
+    " For regular expressions turn magic on
+    set magic
+endif
 
 " Makes search act like search in modern browsers
 set incsearch
@@ -131,10 +135,6 @@ set ignorecase
 
 " When searching try to be smart about cases
 set smartcase
-
-" Configure backspace so it acts as it should act
-set backspace=eol,start,indent
-set whichwrap+=<,>,h,l
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
