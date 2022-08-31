@@ -599,6 +599,12 @@ if !exists('g:vscode')
       return !col || getline('.')[col - 1]  =~# '\s'
     endfunction
 
+    " Use `[g` and `]g` to navigate diagnostics
+    " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+    nmap <silent> [g <Plug>(coc-diagnostic-prev)
+    nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+
     "" Remap keys for gotos
     nmap <silent> gd <Plug>(coc-definition)
     nmap <silent> gy <Plug>(coc-type-definition)
@@ -618,12 +624,6 @@ if !exists('g:vscode')
 
     "" Remap for rename current word
     nmap <leader>rn <Plug>(coc-rename)
-
-    " Function text objects (if enabled by server)
-    xmap if <Plug>(coc-funcobj-i)
-    xmap af <Plug>(coc-funcobj-a)
-    omap if <Plug>(coc-funcobj-i)
-    omap af <Plug>(coc-funcobj-a)
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
