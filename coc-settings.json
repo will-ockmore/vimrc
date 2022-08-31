@@ -11,6 +11,7 @@
     "markdown",
     "scheme"
   ],
+  "suggest.noselect": true,
   "python.linting.flake8Enabled": true,
   "python.formatting.provider": "black",
   "python.formatting.blackPath": "~/.pyenv/shims/black",
