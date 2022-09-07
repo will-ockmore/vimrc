@@ -1,67 +1,86 @@
 {
-  "coc.preferences.formatOnSaveFiletypes": [
-    "css",
-    "javascript",
-    "python",
-    "json",
-    "rust",
-    "typescript",
-    "typescriptreact",
-    "json",
-    "markdown",
-    "scheme"
-  ],
-  "suggest.noselect": true,
-  "python.linting.flake8Enabled": true,
-  "python.formatting.provider": "black",
-  "python.formatting.blackPath": "~/.pyenv/shims/black",
-  "python.formatting.blackArgs": ["--diff", "--quiet", "--fast"],
-  "diagnostic.checkCurrentLine": true,
-  "diagnostic-languageserver.filetypes": {
-    "sh": "shellcheck",
-    "dockerfile": "hadolint"
-  },
-  "diagnostic-languageserver.formatFiletypes": {
-    "javascript": "prettier",
-    "javascriptreact": "prettier",
-    "typescript": "prettier",
-    "typescriptreact": "prettier",
-    "css": "prettier",
-    "json": "prettier",
-    "markdown": "prettier",
-    "graphql": "prettier"
-  },
-  "diagnostic-languageserver.formatters": {
-    "prettier": {
-      "command": "prettier",
-      "args": ["--stdin", "--stdin-filepath", "%filepath"],
-      "rootPatterns": [
-        ".prettierrc",
-        ".prettierrc.json",
-        ".prettierrc.toml",
-        ".prettierrc.json",
-        ".prettierrc.yml",
-        ".prettierrc.yaml",
-        ".prettierrc.json5",
-        ".prettierrc.js",
-        ".prettierrc.cjs",
-        "prettier.config.js",
-        "prettier.config.cjs"
-      ]
-    }
-  },
-  "languageserver": {
-    "terraform": {
-      "command": "terraform-ls",
-      "args": ["serve"],
-      "filetypes": ["tf", "terraform"],
-      "initializationOptions": {},
-      "settings": {}
+    "coc.preferences.formatOnSaveFiletypes": [
+        "css",
+        "javascript",
+        "python",
+        "json",
+        "rust",
+        "typescript",
+        "typescriptreact",
+        "json",
+        "markdown",
+        "scheme"
+    ],
+    "suggest.noselect": true,
+    "pyright.inlayHints.enable": false,
+    "python.linting.flake8Enabled": true,
+    "python.formatting.provider": "black",
+    "python.formatting.blackPath": "~/.pyenv/shims/black",
+    "python.formatting.blackArgs": [
+        "--diff",
+        "--quiet",
+        "--fast"
+    ],
+    "diagnostic.checkCurrentLine": true,
+    "diagnostic-languageserver.filetypes": {
+        "sh": "shellcheck",
+        "dockerfile": "hadolint"
     },
-    "scheme": {
-      "command": "racket",
-      "args": ["--lib", "racket-langserver"],
-      "filetypes": ["scheme"]
+    "diagnostic-languageserver.formatFiletypes": {
+        "javascript": "prettier",
+        "javascriptreact": "prettier",
+        "typescript": "prettier",
+        "typescriptreact": "prettier",
+        "css": "prettier",
+        "json": "prettier",
+        "markdown": "prettier",
+        "graphql": "prettier"
+    },
+    "diagnostic-languageserver.formatters": {
+        "prettier": {
+            "command": "prettier",
+            "args": [
+                "--stdin",
+                "--stdin-filepath",
+                "%filepath"
+            ],
+            "rootPatterns": [
+                ".prettierrc",
+                ".prettierrc.json",
+                ".prettierrc.toml",
+                ".prettierrc.json",
+                ".prettierrc.yml",
+                ".prettierrc.yaml",
+                ".prettierrc.json5",
+                ".prettierrc.js",
+                ".prettierrc.cjs",
+                "prettier.config.js",
+                "prettier.config.cjs"
+            ]
+        }
+    },
+    "languageserver": {
+        "terraform": {
+            "command": "terraform-ls",
+            "args": [
+                "serve"
+            ],
+            "filetypes": [
+                "tf",
+                "terraform"
+            ],
+            "initializationOptions": {},
+            "settings": {}
+        },
+        "scheme": {
+            "command": "racket",
+            "args": [
+                "--lib",
+                "racket-langserver"
+            ],
+            "filetypes": [
+                "scheme"
+            ]
+        }
     }
-  }
 }

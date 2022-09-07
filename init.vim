@@ -556,7 +556,7 @@ if !exists('g:vscode')
     nnoremap <leader>f :FzfFilesWithPreview!<CR>
 
     " Search file contents (Ctrl-shift-f behaviour)
-    nnoremap <leader>g :Rg
+    nnoremap <leader>g :Rg<Space>
 
     " Search buffers
     nnoremap <leader>b :Buffers<CR>
