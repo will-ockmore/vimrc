@@ -327,7 +327,7 @@ if !exists('g:vscode')
     """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     " Repeat last command in last window
     " Useful for running tests after changes without leaving vim
-    nmap \r :!tmux send-keys -t {last} C-p C-j <CR><CR>
+    nmap \r :!tmux send-keys -t {last} Up Enter <CR>
 endif
 
 function! VisualSelection(direction, extra_filter) range
