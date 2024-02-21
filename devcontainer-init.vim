@@ -312,7 +312,6 @@ Plug 'junegunn/fzf', !exists('g:vscode') ? { 'do': { -> fzf#install() } } : { 'o
 Plug 'junegunn/fzf.vim', Cond(!exists('g:vscode'))
 Plug 'kyazdani42/nvim-web-devicons', Cond(!exists('g:vscode'))
 Plug 'michaeljsmith/vim-indent-object', Cond(!exists('g:vscode'))
-Plug 'nvim-lualine/lualine.nvim', Cond(!exists('g:vscode'))
 Plug 'will-ockmore/vim-notes', Cond(!exists('g:vscode'))
 
 " Installed for both vscode-neovim and terminal vim
@@ -321,21 +320,6 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 
 call plug#end()
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Lualine
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-if !exists('g:vscode')
-lua << EOF
-require('lualine').setup {
- options = {
-     theme = "nightfox"
- }
-}
-EOF
-endif
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => FZF
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
