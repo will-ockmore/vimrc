@@ -457,7 +457,7 @@ if !exists('g:vscode')
 
 lua << EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "c", "vim", "vimdoc", "query", "lua", "python", "typescript", "javascript", "html", "yaml", "json"},
+  ensure_installed = { "c", "vim", "query", "lua", "python", "typescript", "javascript", "html", "yaml", "json"},
 
   -- Install languages synchronously (only applied to `ensure_installed`)
   sync_install = false,
