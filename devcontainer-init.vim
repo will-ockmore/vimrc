@@ -306,7 +306,8 @@ endfunction
 call plug#begin()
 
 " Only installed for terminal vim
-Plug 'EdenEast/nightfox.nvim', Cond(!exists('g:vscode'))
+Plug 'EdenEast/nightfox.nvim', Cond(!exists('g:vscode') && has('nvim-0.8'))
+Plug 'morhetz/gruvbox', Cond(!exists('g:vscode') && !has('nvim-0.8'))
 Plug 'jiangmiao/auto-pairs', Cond(!exists('g:vscode'))
 Plug 'junegunn/fzf', !exists('g:vscode') ? { 'do': { -> fzf#install() } } : { 'on': [] }
 Plug 'junegunn/fzf.vim', Cond(!exists('g:vscode'))
@@ -358,5 +359,9 @@ if !exists('g:vscode')
     " Avoid the background bleed in tmux
     " See https://sunaku.github.io/vim-256color-bce.html
     set t_ut=
-    colorscheme nightfox
+    if has('nvim-0.8')
+        colorscheme nightfox
+    else
+        colorscheme gruvbox
+    endif
 endif
